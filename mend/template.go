@@ -5,6 +5,7 @@ import (
 	"io"
 	"path/filepath"
 
+	"github.com/bbfh-dev/mend.html/mend/attrs"
 	"golang.org/x/net/html"
 )
 
@@ -14,6 +15,7 @@ type Template struct {
 
 	currentLine  int
 	currentToken html.Token
+	currentAttrs attrs.Attributes
 }
 
 func NewTemplate(name string, params string) *Template {
@@ -41,6 +43,7 @@ func (template *Template) Parse(reader io.Reader) error {
 		}
 
 		template.currentToken = tokenizer.Token()
+		template.currentAttrs = attrs.New(template.currentToken.Attr)
 
 		err := template.Process(tokenType)
 		if err != nil {
