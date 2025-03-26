@@ -132,8 +132,8 @@ func (template *Template) process(tokenType html.TokenType) error {
 			variable := template.currentAttrs.Get("for")
 
 			var result gjson.Result
-			if strings.HasPrefix(variable, "^") {
-				result = gjson.Get(settings.GlobalParams, variable[1:])
+			if strings.HasPrefix(variable, "^.") {
+				result = gjson.Get(settings.GlobalParams, variable[2:])
 			} else {
 				result = gjson.Get(template.Params, variable)
 			}

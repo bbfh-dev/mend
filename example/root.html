@@ -15,11 +15,14 @@
     <mend:include src="header.html" :color="#ffffff" />
     <mend:slot />
     <section>
-        <mend:range for="^items">
+        <mend:range for="^.items">
             <div id="{{ #.INDEX }}">
                 <mend:if value="{{ #.INDEX == 0 }}">
                     <b>FIRST!</b>
                 </mend:if>
+                <mend:unless value="{{ #.INDEX == 0 }}">
+                    <b>NOT FIRST!</b>
+                </mend:unless>
                 <span>{{ #.name }}</span>
             </div>
         </mend:range>
