@@ -43,6 +43,14 @@ func (template *Template) lastBreadcrumb() tags.NodeWithChildren {
 	return template.breadcrumbs[len(template.breadcrumbs)-1]
 }
 
+func (template *Template) grandParent() tags.NodeWithChildren {
+	switch len(template.breadcrumbs) {
+	case 0, 1:
+		return template.Root
+	}
+	return template.breadcrumbs[len(template.breadcrumbs)-2]
+}
+
 func (template *Template) append(nodes ...tags.Node) {
 	template.lastBreadcrumb().Add(nodes...)
 }
