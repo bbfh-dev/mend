@@ -1,4 +1,4 @@
-package nodes
+package tags
 
 // Represents a simple paired node
 type RootNode struct {

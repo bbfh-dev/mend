@@ -1,4 +1,4 @@
-package nodes
+package tags
 
 import (
 	"github.com/bbfh-dev/mend.html/mend/settings"

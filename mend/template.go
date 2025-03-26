@@ -8,8 +8,8 @@ import (
 	"strings"
 
 	"github.com/bbfh-dev/mend.html/mend/attrs"
-	"github.com/bbfh-dev/mend.html/mend/nodes"
 	"github.com/bbfh-dev/mend.html/mend/settings"
+	"github.com/bbfh-dev/mend.html/mend/tags"
 	"golang.org/x/net/html"
 )
 
@@ -20,18 +20,18 @@ type Template struct {
 	Name   string
 	Params string
 
-	Root nodes.NodeWithChildren
+	Root tags.NodeWithChildren
 
 	currentLine  int
 	currentToken html.Token
 	currentText  string
 	currentAttrs attrs.Attributes
 	// A list of current parents from greatest to closest
-	breadcrumbs []nodes.NodeWithChildren
+	breadcrumbs []tags.NodeWithChildren
 }
 
 func NewTemplate(name string, params string) *Template {
-	root := nodes.NewRootNode()
+	root := tags.NewRootNode()
 	return &Template{
 		Name:         name,
 		Params:       params,
@@ -39,19 +39,19 @@ func NewTemplate(name string, params string) *Template {
 		currentLine:  1,
 		currentToken: html.Token{},
 		currentAttrs: attrs.Attributes{},
-		breadcrumbs:  []nodes.NodeWithChildren{root},
+		breadcrumbs:  []tags.NodeWithChildren{root},
 	}
 }
 
-func (template *Template) lastBreadcrumb() nodes.NodeWithChildren {
+func (template *Template) lastBreadcrumb() tags.NodeWithChildren {
 	return template.breadcrumbs[len(template.breadcrumbs)-1]
 }
 
-func (template *Template) append(nodes ...nodes.Node) {
+func (template *Template) append(nodes ...tags.Node) {
 	template.lastBreadcrumb().Add(nodes...)
 }
 
-func (template *Template) appendLevel(node nodes.NodeWithChildren) {
+func (template *Template) appendLevel(node tags.NodeWithChildren) {
 	template.append(node)
 	template.breadcrumbs = append(template.breadcrumbs, node)
 }
@@ -101,11 +101,11 @@ func (template *Template) Process(tokenType html.TokenType) error {
 	switch tokenType {
 
 	case html.DoctypeToken:
-		template.append(nodes.NewDoctypeNode(template.currentText))
+		template.append(tags.NewDoctypeNode(template.currentText))
 
 	case html.CommentToken:
 		if settings.KeepComments {
-			template.append(nodes.NewCommentNode(template.currentText))
+			template.append(tags.NewCommentNode(template.currentText))
 		}
 
 	case html.TextToken:
@@ -118,11 +118,11 @@ func (template *Template) Process(tokenType html.TokenType) error {
 			builder.WriteString(strings.TrimSpace(line))
 			builder.WriteString(" ")
 		}
-		template.append(nodes.NewTextNode(builder.String()))
+		template.append(tags.NewTextNode(builder.String()))
 
 	case html.SelfClosingTagToken:
 		if !strings.HasPrefix(template.currentText, PREFIX) {
-			node := nodes.NewVoidNode(template.currentText, template.currentAttrs)
+			node := tags.NewVoidNode(template.currentText, template.currentAttrs)
 			template.append(node)
 			break
 		}
@@ -134,7 +134,7 @@ func (template *Template) Process(tokenType html.TokenType) error {
 				return template.Process(html.SelfClosingTagToken)
 			}
 
-			node := nodes.NewTagNode(template.currentText, template.currentAttrs)
+			node := tags.NewTagNode(template.currentText, template.currentAttrs)
 			template.appendLevel(node)
 			break
 		}
