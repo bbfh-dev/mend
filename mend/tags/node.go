@@ -8,6 +8,7 @@ import (
 
 type Node interface {
 	Render(out writer, indent int)
+	Visible() bool
 }
 
 type NodeWithChildren interface {
@@ -46,6 +47,9 @@ func newPairedNode() *pairedNode {
 func (node *pairedNode) renderMinimal(out writer, indent int) {
 	last := len(node.Children) - 1
 	for i, child := range node.Children {
+		if !child.Visible() {
+			continue
+		}
 		child.Render(out, indent)
 		if i != last {
 			out.WriteString("\n")
@@ -55,6 +59,9 @@ func (node *pairedNode) renderMinimal(out writer, indent int) {
 
 func (node *pairedNode) renderList(out writer, indent int) {
 	for _, child := range node.Children {
+		if !child.Visible() {
+			continue
+		}
 		child.Render(out, indent+1)
 		out.WriteString("\n")
 	}
@@ -63,6 +70,9 @@ func (node *pairedNode) renderList(out writer, indent int) {
 func (node *pairedNode) renderPadded(out writer, indent int) {
 	out.WriteString("\n")
 	for _, child := range node.Children {
+		if !child.Visible() {
+			continue
+		}
 		child.Render(out, indent)
 		out.WriteString("\n\n")
 	}

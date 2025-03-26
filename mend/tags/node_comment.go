@@ -21,3 +21,7 @@ func (node *CommentNode) Render(out writer, indent int) {
 	settings.WriteIndent(out, indent)
 	fmt.Fprintf(out, "<!-- %s -->", node.Comment)
 }
+
+func (node *CommentNode) Visible() bool {
+	return true
+}

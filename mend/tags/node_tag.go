@@ -34,3 +34,7 @@ func (node *TagNode) Render(out writer, indent int) {
 	settings.WriteIndent(out, indent)
 	renderClosingTag(out, node.Tag)
 }
+
+func (node *TagNode) Visible() bool {
+	return true
+}

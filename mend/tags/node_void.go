@@ -23,3 +23,7 @@ func (node *VoidNode) Render(out writer, indent int) {
 	renderOpeningTag(out, node.Void, node.Attributes)
 	out.WriteString(" />")
 }
+
+func (node *VoidNode) Visible() bool {
+	return true
+}

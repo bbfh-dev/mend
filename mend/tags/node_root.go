@@ -14,3 +14,7 @@ func NewRootNode() *RootNode {
 func (node *RootNode) Render(out writer, indent int) {
 	node.renderMinimal(out, indent)
 }
+
+func (node *RootNode) Visible() bool {
+	return true
+}

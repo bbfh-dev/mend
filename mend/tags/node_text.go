@@ -19,3 +19,7 @@ func (node *TextNode) Render(out writer, indent int) {
 	settings.WriteIndent(out, indent)
 	out.WriteString(node.Text)
 }
+
+func (node *TextNode) Visible() bool {
+	return true
+}

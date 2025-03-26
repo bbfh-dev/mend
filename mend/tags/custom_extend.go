@@ -19,3 +19,7 @@ func NewCustomExtendNode() *CustomExtendNode {
 func (node *CustomExtendNode) Render(out writer, indent int) {
 	node.Inner.renderMinimal(out, indent)
 }
+
+func (node *CustomExtendNode) Visible() bool {
+	return true
+}
