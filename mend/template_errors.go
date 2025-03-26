@@ -25,7 +25,7 @@ func (template *Template) errInternal(err error) error {
 }
 
 func (template *Template) errBranch(err error) error {
-	return fmt.Errorf("(branch) %w", err)
+	return fmt.Errorf("-> %w", err)
 }
 
 func (template *Template) errMissingAttribute(attr string) error {
