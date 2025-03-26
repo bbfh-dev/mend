@@ -30,11 +30,11 @@ func (attrs Attributes) IsEmpty() bool {
 	return len(attrs.order) == 0
 }
 
-func (attrs Attributes) ParamKeys() []string {
-	out := make([]string, 0, len(attrs.order))
+func (attrs Attributes) ParamKeys() map[string]string {
+	out := map[string]string{}
 	for _, key := range attrs.order {
 		if strings.HasPrefix(key, ":") {
-			out = append(out, key[1:])
+			out[key[1:]] = attrs.values[key]
 		}
 	}
 	return out
