@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- some comment -->
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="user-scalable=yes, initial-scale=1.0, width=device-width" />
+    <meta name="author" content="github.com/bbfh-dev/mend.html" />
+    <meta name="description" content="An example website" />
+    <title>{{ -capitalize .page.title }}</title>
+</head>
+
+<body>
+    <mend:include src="header.html" :color="#ffffff" />
+    <mend:slot />
+    <section>
+        <mend:range for="items">
+            <div id="{{ #.INDEX }}">
+                <mend:if value="{{ #.INDEX == 0 }}">
+                    <b>FIRST!</b>
+                </mend:if>
+                <span>{{ #.name }}</span>
+            </div>
+        </mend:range>
+    </section>
+</body>
+
+</html>
