@@ -84,6 +84,7 @@ func Program(input parsex.Input) error {
 		if input.Has(FLAG_INPUT) {
 			params = input.String(FLAG_INPUT)
 		}
+		settings.GlobalParams = params
 
 		template := mend.NewTemplate(filename, params)
 		err = template.Parse(file)
