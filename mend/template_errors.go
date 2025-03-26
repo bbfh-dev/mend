@@ -35,3 +35,7 @@ func (template *Template) errMissingAttribute(attr string) error {
 		attr,
 	)
 }
+
+func (template *Template) errUndefinedParam(param string) error {
+	return fmt.Errorf("undefined parameter %q", param)
+}
