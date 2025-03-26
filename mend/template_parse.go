@@ -106,6 +106,16 @@ func (template *Template) Process(tokenType html.TokenType) error {
 			break
 		}
 		switch template.currentText[PREFIX_LEN:] {
+
+		case tags.TAG_EXTEND:
+			branch, err := template.branchOut()
+			if err != nil {
+				return err
+			}
+			node := tags.NewCustomExtendNode()
+			node.Inner.Add(branch.Root)
+			node.Slot = branch.Slot
+			template.appendLevel(node)
 		default:
 			return template.errUnknownTag()
 		}
@@ -113,6 +123,12 @@ func (template *Template) Process(tokenType html.TokenType) error {
 	case html.EndTagToken:
 		if len(template.breadcrumbs) == 1 {
 			break
+		}
+		switch node := template.lastBreadcrumb().(type) {
+		case *tags.CustomExtendNode:
+			if node.Slot != nil {
+				node.Slot.Add(node.Children...)
+			}
 		}
 		template.breadcrumbs = template.breadcrumbs[:len(template.breadcrumbs)-1]
 	}
