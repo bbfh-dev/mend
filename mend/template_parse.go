@@ -10,6 +10,7 @@ import (
 	"github.com/bbfh-dev/mend.html/mend/attrs"
 	"github.com/bbfh-dev/mend.html/mend/settings"
 	"github.com/bbfh-dev/mend.html/mend/tags"
+	"github.com/tidwall/gjson"
 	"golang.org/x/net/html"
 )
 
@@ -124,6 +125,32 @@ func (template *Template) Process(tokenType html.TokenType) error {
 			node.Slot = branch.Slot
 			template.appendLevel(node)
 
+		case tags.TAG_RANGE:
+			if !template.currentAttrs.Contains("for") {
+				return template.errMissingAttribute("for")
+			}
+			variable := template.currentAttrs.Get("for")
+
+			var result gjson.Result
+			if strings.HasPrefix(variable, "^") {
+				result = gjson.Get(settings.GlobalParams, variable[1:])
+			} else {
+				result = gjson.Get(template.Params, variable)
+			}
+
+			if !result.Exists() {
+				return template.errUndefinedParam(variable)
+			}
+			if !result.IsArray() {
+				return fmt.Errorf(
+					"parameter %q is not an array! It's set to: `%s`",
+					variable,
+					result.String(),
+				)
+			}
+			node := tags.NewCustomRangeNode(variable, result)
+			template.appendLevel(node)
+
 		case tags.TAG_IF:
 			node := tags.NewCustomIfNode(
 				template.currentAttrs.GetOrFallback("value", "true"),
@@ -147,10 +174,17 @@ func (template *Template) Process(tokenType html.TokenType) error {
 			break
 		}
 		switch node := template.lastBreadcrumb().(type) {
+
 		case *tags.CustomExtendNode:
 			if node.Slot != nil {
 				node.Slot.Add(node.Children...)
 			}
+
+		case *tags.CustomRangeNode:
+			for range node.Values.Array() {
+				template.grandParent().Add(node.Children...)
+			}
+
 		}
 		template.breadcrumbs = template.breadcrumbs[:len(template.breadcrumbs)-1]
 	}
