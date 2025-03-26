@@ -3,8 +3,10 @@ package main
 import (
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/bbfh-dev/mend.html/mend"
+	"github.com/bbfh-dev/mend.html/mend/settings"
 	"github.com/bbfh-dev/parsex/parsex"
 )
 
@@ -71,10 +73,18 @@ func Program(input parsex.Input) error {
 		}
 		defer file.Close()
 
+		settings.KeepComments = !input.Has(FLAG_DECOMMENT)
+		if input.Has(FLAG_INDENT) {
+			settings.IndentWith = strings.Repeat(" ", input.Int(FLAG_INDENT))
+		}
+		if input.Has(FLAG_USE_TABS) {
+			settings.IndentWith = "\t"
+		}
 		params := "{}"
 		if input.Has(FLAG_INPUT) {
 			params = input.String(FLAG_INPUT)
 		}
+
 		template := mend.NewTemplate(filename, params)
 		err = template.Parse(file)
 		if err != nil {
