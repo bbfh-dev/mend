@@ -1,6 +1,5 @@
 package tags
 
-// Represents a regular HTML paired node
 type CustomExtendNode struct {
 	*pairedNode
 	// Store all the nodes from the file it extends

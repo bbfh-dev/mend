@@ -1,6 +1,5 @@
 package tags
 
-// Represents a regular HTML paired node
 type CustomIfNode struct {
 	*pairedNode
 	Value  string
