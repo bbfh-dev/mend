@@ -1,6 +1,8 @@
 package attrs
 
 import (
+	"strings"
+
 	"golang.org/x/net/html"
 )
 
@@ -28,22 +30,15 @@ func (attrs Attributes) IsEmpty() bool {
 	return len(attrs.order) == 0
 }
 
-// func (attrs Attributes) ParamKeys() []string {
-// 	out := make([]string, 0, len(attrs.order))
-// 	for _, key := range attrs.order {
-// 		if strings.HasPrefix(key, ":") {
-// 			out = append(out, key[1:])
-// 		}
-// 	}
-// 	return out
-// }
-//
-// func (attrs Attributes) ParseExpressions(fn func(string) string) Attributes {
-// 	for key, value := range attrs.values {
-// 		attrs.values[key] = fn(value)
-// 	}
-// 	return attrs
-// }
+func (attrs Attributes) ParamKeys() []string {
+	out := make([]string, 0, len(attrs.order))
+	for _, key := range attrs.order {
+		if strings.HasPrefix(key, ":") {
+			out = append(out, key[1:])
+		}
+	}
+	return out
+}
 
 func (attrs Attributes) Get(key string) string {
 	return attrs.values[key]
