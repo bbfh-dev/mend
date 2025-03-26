@@ -84,6 +84,12 @@ func (template *Template) Process(tokenType html.TokenType) error {
 			break
 		}
 		switch template.currentText[PREFIX_LEN:] {
+
+		case tags.TAG_SLOT:
+			node := tags.NewRootNode()
+			template.append(node)
+			template.Slot = node
+
 		default:
 			return template.errUnknownTag()
 		}

@@ -14,6 +14,7 @@ type Template struct {
 	Params string
 
 	Root tags.NodeWithChildren
+	Slot tags.NodeWithChildren
 
 	currentLine  int
 	currentToken html.Token
@@ -29,6 +30,7 @@ func NewTemplate(name string, params string) *Template {
 		Name:         name,
 		Params:       params,
 		Root:         root,
+		Slot:         nil,
 		currentLine:  1,
 		currentToken: html.Token{},
 		currentAttrs: attrs.Attributes{},
