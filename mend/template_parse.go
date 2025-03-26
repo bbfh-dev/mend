@@ -123,6 +123,21 @@ func (template *Template) Process(tokenType html.TokenType) error {
 			node.Inner.Add(branch.Root)
 			node.Slot = branch.Slot
 			template.appendLevel(node)
+
+		case tags.TAG_IF:
+			node := tags.NewCustomIfNode(
+				template.currentAttrs.GetOrFallback("value", "true"),
+				true,
+			)
+			template.appendLevel(node)
+
+		case tags.TAG_UNLESS:
+			node := tags.NewCustomIfNode(
+				template.currentAttrs.GetOrFallback("value", "true"),
+				false,
+			)
+			template.appendLevel(node)
+
 		default:
 			return template.errUnknownTag()
 		}
