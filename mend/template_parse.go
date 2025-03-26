@@ -52,6 +52,11 @@ loop:
 		}
 	}
 
+	err := template.parseExpressions()
+	if err != nil {
+		return fmt.Errorf("(expression) %w", err)
+	}
+
 	return nil
 }
 
