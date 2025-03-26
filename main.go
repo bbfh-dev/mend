@@ -9,6 +9,8 @@ import (
 )
 
 const FLAG_INPUT = "input"
+const FLAG_USE_TABS = "tabs"
+const FLAG_INDENT = "indent"
 const FLAG_DECOMMENT = "decomment"
 
 var Version string
@@ -26,6 +28,18 @@ var CLI = parsex.New(
 			Desc:     "Set global input parameters",
 			Check:    parsex.ValidJSON,
 			Optional: true,
+		},
+		parsex.ParamOption{
+			Name:     FLAG_INDENT,
+			Keywords: []string{FLAG_INDENT},
+			Desc:     "Set amount of spaces to indent with. Gets ignored if --tabs is used",
+			Check:    parsex.ValidInt,
+			Optional: true,
+		},
+		parsex.FlagOption{
+			Name:     FLAG_USE_TABS,
+			Keywords: []string{FLAG_USE_TABS, "t"},
+			Desc:     "Use tabs instead of spaces",
 		},
 		parsex.FlagOption{
 			Name:     FLAG_DECOMMENT,
