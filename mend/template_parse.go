@@ -41,7 +41,7 @@ loop:
 		template.currentAttrs = attrs.New(template.currentToken.Attr)
 		template.currentText = strings.TrimSpace(template.currentToken.Data)
 
-		err := template.Process(tokenType)
+		err := template.process(tokenType)
 		if err != nil {
 			return fmt.Errorf(
 				"(%s:%d) %w",
@@ -55,7 +55,7 @@ loop:
 	return nil
 }
 
-func (template *Template) Process(tokenType html.TokenType) error {
+func (template *Template) process(tokenType html.TokenType) error {
 	switch tokenType {
 
 	case html.DoctypeToken:
@@ -106,7 +106,7 @@ func (template *Template) Process(tokenType html.TokenType) error {
 		if !strings.HasPrefix(template.currentText, PREFIX) {
 			// Is it actually a self-closing tag with wrong syntax?
 			if slices.Contains(attrs.SelfClosingTags, template.currentText) {
-				return template.Process(html.SelfClosingTagToken)
+				return template.process(html.SelfClosingTagToken)
 			}
 
 			node := tags.NewTagNode(template.currentText, template.currentAttrs)
