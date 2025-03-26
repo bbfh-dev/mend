@@ -27,3 +27,11 @@ func (template *Template) errInternal(err error) error {
 func (template *Template) errBranch(err error) error {
 	return fmt.Errorf("(branch) %w", err)
 }
+
+func (template *Template) errMissingAttribute(attr string) error {
+	return fmt.Errorf(
+		"tag <%s> is missing attribute %q",
+		template.currentText,
+		attr,
+	)
+}
