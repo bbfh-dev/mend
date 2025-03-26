@@ -23,3 +23,7 @@ func (template *Template) errUnknownTag() error {
 func (template *Template) errInternal(err error) error {
 	return fmt.Errorf("(internal) %w", err)
 }
+
+func (template *Template) errBranch(err error) error {
+	return fmt.Errorf("(branch) %w", err)
+}
