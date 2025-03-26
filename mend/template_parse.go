@@ -85,6 +85,13 @@ func (template *Template) Process(tokenType html.TokenType) error {
 		}
 		switch template.currentText[PREFIX_LEN:] {
 
+		case tags.TAG_INCLUDE:
+			branch, err := template.branchOut()
+			if err != nil {
+				return err
+			}
+			template.append(branch.Root)
+
 		case tags.TAG_SLOT:
 			node := tags.NewRootNode()
 			template.append(node)
