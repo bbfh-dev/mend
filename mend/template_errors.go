@@ -19,3 +19,7 @@ func (template *Template) errUnknownTag() error {
 		help.String(),
 	)
 }
+
+func (template *Template) errInternal(err error) error {
+	return fmt.Errorf("(internal) %w", err)
+}
