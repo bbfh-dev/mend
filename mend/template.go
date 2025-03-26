@@ -32,6 +32,7 @@ func NewTemplate(name string, params string) *Template {
 		currentLine:  1,
 		currentToken: html.Token{},
 		currentAttrs: attrs.Attributes{},
+		currentText:  "",
 		breadcrumbs:  []tags.NodeWithChildren{root},
 	}
 }
