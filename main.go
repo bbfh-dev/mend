@@ -90,6 +90,8 @@ func Program(input parsex.Input) error {
 		if err != nil {
 			return err
 		}
+
+		template.Root.Render(os.Stdout, 0)
 	}
 
 	return nil
