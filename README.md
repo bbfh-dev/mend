@@ -2,6 +2,18 @@
 
 Mend is a simple HTML template processor designed to, but not limited to be used to generate static websites.
 
+> [!IMPORTANT]
+> Mend writes into **stdout** instead of a file. This is **not** a limitation, it's an [important advantage](#outputs-to-stdout).
+
+> [!TIP]
+> If you are on Linux, you can also provide inputs from a file using tools like [jq](https://jqlang.org/):
+>
+> ```bash
+> cat "<input .json>" | jq -c . | xargs -0 -d "\n" -I {} mend -i {} "<input .html>"
+> ```
+>
+> This will pass the contents of `<input .json>` file as an argument to mend.
+
 <!-- vim-markdown-toc GFM -->
 
 * [📥 Installation](#-installation)
