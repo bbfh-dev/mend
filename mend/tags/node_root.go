@@ -18,3 +18,9 @@ func (node *RootNode) Render(out writer, indent int) {
 func (node *RootNode) Visible() bool {
 	return true
 }
+
+func (node *RootNode) Clone() Node {
+	clone := *node
+	clone.pairedNode = clone.pairedNode.Clone()
+	return &clone
+}

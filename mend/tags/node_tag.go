@@ -43,3 +43,9 @@ func (node *TagNode) ReplaceText(text string, with string) {
 	node.Attributes = node.Attributes.ReplaceText(text, with)
 	node.pairedNode.ReplaceText(text, with)
 }
+
+func (node *TagNode) Clone() Node {
+	clone := *node
+	clone.pairedNode = clone.pairedNode.Clone()
+	return &clone
+}

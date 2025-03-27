@@ -22,3 +22,9 @@ func (node *CustomExtendNode) Render(out writer, indent int) {
 func (node *CustomExtendNode) Visible() bool {
 	return true
 }
+
+func (node *CustomExtendNode) Clone() Node {
+	clone := *node
+	clone.pairedNode = clone.pairedNode.Clone()
+	return &clone
+}

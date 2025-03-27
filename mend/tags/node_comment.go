@@ -30,3 +30,8 @@ func (node *CommentNode) Visible() bool {
 func (node *CommentNode) ReplaceText(text string, with string) {
 	node.Comment = strings.ReplaceAll(node.Comment, text, with)
 }
+
+func (node *CommentNode) Clone() Node {
+	clone := *node
+	return &clone
+}

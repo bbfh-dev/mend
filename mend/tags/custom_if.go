@@ -27,3 +27,9 @@ func (node *CustomIfNode) Render(out writer, indent int) {
 func (node *CustomIfNode) Visible() bool {
 	return node.check()
 }
+
+func (node *CustomIfNode) Clone() Node {
+	clone := *node
+	clone.pairedNode = clone.pairedNode.Clone()
+	return &clone
+}

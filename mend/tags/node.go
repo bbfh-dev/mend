@@ -10,6 +10,7 @@ type Node interface {
 	Render(out writer, indent int)
 	Visible() bool
 	ReplaceText(text string, with string)
+	Clone() Node
 }
 
 type NodeWithChildren interface {
@@ -87,4 +88,14 @@ func (node *pairedNode) ReplaceText(text string, with string) {
 	for _, child := range node.Children {
 		child.ReplaceText(text, with)
 	}
+}
+
+func (node *pairedNode) Clone() *pairedNode {
+	clone := *node
+	children := make([]Node, len(clone.Children))
+	for i, child := range clone.Children {
+		children[i] = child.Clone()
+	}
+	clone.Children = children
+	return &clone
 }

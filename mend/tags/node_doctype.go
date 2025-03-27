@@ -27,3 +27,8 @@ func (node *DoctypeNode) Visible() bool {
 
 func (node *DoctypeNode) ReplaceText(text string, with string) {
 }
+
+func (node *DoctypeNode) Clone() Node {
+	clone := *node
+	return &clone
+}

@@ -29,3 +29,8 @@ func (node *TextNode) Visible() bool {
 func (node *TextNode) ReplaceText(text string, with string) {
 	node.Text = strings.ReplaceAll(node.Text, text, with)
 }
+
+func (node *TextNode) Clone() Node {
+	clone := *node
+	return &clone
+}

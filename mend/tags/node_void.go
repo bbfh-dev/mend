@@ -31,3 +31,8 @@ func (node *VoidNode) Visible() bool {
 func (node *VoidNode) ReplaceText(text string, with string) {
 	node.Attributes = node.Attributes.ReplaceText(text, with)
 }
+
+func (node *VoidNode) Clone() Node {
+	clone := *node
+	return &clone
+}

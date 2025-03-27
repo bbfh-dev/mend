@@ -1,6 +1,8 @@
 package tags
 
-import "github.com/tidwall/gjson"
+import (
+	"github.com/tidwall/gjson"
+)
 
 type CustomRangeNode struct {
 	*pairedNode
@@ -20,4 +22,10 @@ func (node *CustomRangeNode) Render(out writer, indent int) {}
 
 func (node *CustomRangeNode) Visible() bool {
 	return false
+}
+
+func (node *CustomRangeNode) Clone() Node {
+	clone := *node
+	clone.pairedNode = clone.pairedNode.Clone()
+	return &clone
 }
