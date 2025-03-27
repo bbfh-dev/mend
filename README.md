@@ -1,4 +1,4 @@
-# 🔩 mend.html
+# 🔩 mend
 
 Mend is a simple HTML template processor designed to, but not limited to be used to generate static websites.
 
@@ -10,16 +10,14 @@ Mend is a simple HTML template processor designed to, but not limited to be used
 
 <!-- vim-markdown-toc -->
 
-- [Wiki / Documentation](https://github.com/bbfh-dev/mend.html/wiki)
+- [Wiki / Documentation](https://github.com/bbfh-dev/mend/wiki)
 
 # 📥 Installation
 
-Download the [latest release](https://github.com/bbfh-dev/mend.html/releases/latest) or install via the command line with:
+Download the [latest release](https://github.com/bbfh-dev/mend/releases/latest) or install via the command line with:
 
 ```bash
-go install github.com/bbfh-dev/mend.html
-# (optional) change binary name to "mend" instead of "mend.html"
-mv ~/go/bin/mend.html ~/go/bin/mend
+go install github.com/bbfh-dev/mend
 ```
 
 # ⚙️ Usage

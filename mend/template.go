@@ -1,9 +1,9 @@
 package mend
 
 import (
-	"github.com/bbfh-dev/mend.html/mend/assert"
-	"github.com/bbfh-dev/mend.html/mend/attrs"
-	"github.com/bbfh-dev/mend.html/mend/tags"
+	"github.com/bbfh-dev/mend/mend/assert"
+	"github.com/bbfh-dev/mend/mend/attrs"
+	"github.com/bbfh-dev/mend/mend/tags"
 	"golang.org/x/net/html"
 )
 

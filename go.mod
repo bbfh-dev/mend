@@ -1,4 +1,4 @@
-module github.com/bbfh-dev/mend.html
+module github.com/bbfh-dev/mend
 
 go 1.23.6
 

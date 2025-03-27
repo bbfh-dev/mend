@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/bbfh-dev/mend.html/mend/settings"
+	"github.com/bbfh-dev/mend/mend/settings"
 )
 
 // Represents a block of text

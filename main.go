@@ -5,8 +5,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/bbfh-dev/mend.html/mend"
-	"github.com/bbfh-dev/mend.html/mend/settings"
+	"github.com/bbfh-dev/mend/mend"
+	"github.com/bbfh-dev/mend/mend/settings"
 	"github.com/bbfh-dev/parsex/parsex"
 )
 

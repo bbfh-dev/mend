@@ -1,8 +1,8 @@
 package tags
 
 import (
-	"github.com/bbfh-dev/mend.html/mend/attrs"
-	"github.com/bbfh-dev/mend.html/mend/settings"
+	"github.com/bbfh-dev/mend/mend/attrs"
+	"github.com/bbfh-dev/mend/mend/settings"
 )
 
 // Represents a self-closing HTML tag

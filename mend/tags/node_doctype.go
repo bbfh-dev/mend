@@ -3,7 +3,7 @@ package tags
 import (
 	"fmt"
 
-	"github.com/bbfh-dev/mend.html/mend/settings"
+	"github.com/bbfh-dev/mend/mend/settings"
 )
 
 type DoctypeNode struct {

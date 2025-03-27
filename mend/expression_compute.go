@@ -6,7 +6,7 @@ import (
 	"strings"
 	"unicode"
 
-	"github.com/bbfh-dev/mend.html/mend/settings"
+	"github.com/bbfh-dev/mend/mend/settings"
 	"github.com/iancoleman/strcase"
 )
 

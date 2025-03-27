@@ -7,9 +7,9 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/bbfh-dev/mend.html/mend/attrs"
-	"github.com/bbfh-dev/mend.html/mend/settings"
-	"github.com/bbfh-dev/mend.html/mend/tags"
+	"github.com/bbfh-dev/mend/mend/attrs"
+	"github.com/bbfh-dev/mend/mend/settings"
+	"github.com/bbfh-dev/mend/mend/tags"
 	"github.com/tidwall/gjson"
 	"golang.org/x/net/html"
 )

@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/bbfh-dev/mend.html/mend/attrs"
+	"github.com/bbfh-dev/mend/mend/attrs"
 )
 
 type expressionFunc func(source, text string) (string, error)

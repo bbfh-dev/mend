@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/bbfh-dev/mend.html/mend/tags"
+	"github.com/bbfh-dev/mend/mend/tags"
 )
 
 func (template *Template) errUnknownTag() error {
