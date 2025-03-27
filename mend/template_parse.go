@@ -186,8 +186,11 @@ func (template *Template) process(tokenType html.TokenType) error {
 			}
 
 		case *tags.CustomRangeNode:
-			for range node.Values.Array() {
-				template.grandParent().Add(node.Children...)
+			for i := range node.Values.Array() {
+				clone := node.Clone().(*tags.CustomRangeNode)
+				clone.ReplaceText("@index", fmt.Sprintf("%d", i))
+				clone.ReplaceText("@.", fmt.Sprintf("%s.%d.", node.Name, i))
+				template.grandParent().Add(clone.Children...)
 			}
 
 		}
