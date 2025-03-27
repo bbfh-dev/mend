@@ -1,5 +1,9 @@
 package tags
 
+import (
+	"strings"
+)
+
 type CustomIfNode struct {
 	*pairedNode
 	Value  string
@@ -32,4 +36,9 @@ func (node *CustomIfNode) Clone() Node {
 	clone := *node
 	clone.pairedNode = clone.pairedNode.Clone()
 	return &clone
+}
+
+func (node *CustomIfNode) ReplaceText(text string, with string) {
+	node.Value = strings.ReplaceAll(node.Value, text, with)
+	node.pairedNode.ReplaceText(text, with)
 }
