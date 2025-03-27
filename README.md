@@ -20,6 +20,8 @@ Download the [latest release](https://github.com/bbfh-dev/mend.html/releases/lat
 
 ```bash
 go install github.com/bbfh-dev/mend.html
+# (optional) change binary name to "mend" instead of "mend.html"
+mv ~/go/bin/mend.html ~/go/bin/mend
 ```
 
 # ⚙️ Usage
