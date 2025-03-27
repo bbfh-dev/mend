@@ -52,9 +52,9 @@ loop:
 		}
 	}
 
-	err := template.parseExpressions()
+	err := template.Root.ParseExpressions(template.Params, ParseForExpressions)
 	if err != nil {
-		return fmt.Errorf("(expression) %w", err)
+		return fmt.Errorf("(%s | Expression) %w", filepath.Base(template.Name), err)
 	}
 
 	return nil

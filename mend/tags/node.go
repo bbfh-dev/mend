@@ -1,14 +1,18 @@
 package tags
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/bbfh-dev/mend.html/mend/attrs"
 )
 
+type expressionFunc func(source, text string) (string, error)
+
 type Node interface {
 	Render(out writer, indent int)
 	Visible() bool
+	ParseExpressions(string, expressionFunc) error
 	ReplaceText(text string, with string)
 	Clone() Node
 }
@@ -82,6 +86,17 @@ func (node *pairedNode) renderPadded(out writer, indent int) {
 
 func (node *pairedNode) Add(nodes ...Node) {
 	node.Children = append(node.Children, nodes...)
+}
+
+func (node *pairedNode) ParseExpressions(source string, fn expressionFunc) (err error) {
+	errs := make([]error, 0, len(node.Children))
+	for _, child := range node.Children {
+		err = child.ParseExpressions(source, fn)
+		if err != nil {
+			errs = append(errs, err)
+		}
+	}
+	return errors.Join(errs...)
 }
 
 func (node *pairedNode) ReplaceText(text string, with string) {

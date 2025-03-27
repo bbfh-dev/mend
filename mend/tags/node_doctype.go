@@ -25,6 +25,10 @@ func (node *DoctypeNode) Visible() bool {
 	return true
 }
 
+func (node *DoctypeNode) ParseExpressions(source string, fn expressionFunc) (err error) {
+	return nil
+}
+
 func (node *DoctypeNode) ReplaceText(text string, with string) {
 }
 

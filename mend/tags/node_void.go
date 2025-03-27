@@ -28,6 +28,11 @@ func (node *VoidNode) Visible() bool {
 	return true
 }
 
+func (node *VoidNode) ParseExpressions(source string, fn expressionFunc) (err error) {
+	node.Attributes, err = node.Attributes.ParseExpressions(source, fn)
+	return err
+}
+
 func (node *VoidNode) ReplaceText(text string, with string) {
 	node.Attributes = node.Attributes.ReplaceText(text, with)
 }

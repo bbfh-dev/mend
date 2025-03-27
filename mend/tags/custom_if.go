@@ -1,6 +1,7 @@
 package tags
 
 import (
+	"errors"
 	"strings"
 )
 
@@ -36,6 +37,11 @@ func (node *CustomIfNode) Clone() Node {
 	clone := *node
 	clone.pairedNode = clone.pairedNode.Clone()
 	return &clone
+}
+
+func (node *CustomIfNode) ParseExpressions(source string, fn expressionFunc) (err error) {
+	node.Value, err = fn(source, node.Value)
+	return errors.Join(err, node.pairedNode.ParseExpressions(source, fn))
 }
 
 func (node *CustomIfNode) ReplaceText(text string, with string) {

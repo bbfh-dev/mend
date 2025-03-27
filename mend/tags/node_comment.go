@@ -27,6 +27,11 @@ func (node *CommentNode) Visible() bool {
 	return true
 }
 
+func (node *CommentNode) ParseExpressions(source string, fn expressionFunc) (err error) {
+	node.Comment, err = fn(source, node.Comment)
+	return err
+}
+
 func (node *CommentNode) ReplaceText(text string, with string) {
 	node.Comment = strings.ReplaceAll(node.Comment, text, with)
 }

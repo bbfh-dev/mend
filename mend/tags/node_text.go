@@ -26,6 +26,11 @@ func (node *TextNode) Visible() bool {
 	return true
 }
 
+func (node *TextNode) ParseExpressions(source string, fn expressionFunc) (err error) {
+	node.Text, err = fn(source, node.Text)
+	return err
+}
+
 func (node *TextNode) ReplaceText(text string, with string) {
 	node.Text = strings.ReplaceAll(node.Text, text, with)
 }

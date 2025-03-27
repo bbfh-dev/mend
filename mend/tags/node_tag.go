@@ -1,6 +1,8 @@
 package tags
 
 import (
+	"errors"
+
 	"github.com/bbfh-dev/mend.html/mend/attrs"
 	"github.com/bbfh-dev/mend.html/mend/settings"
 )
@@ -37,6 +39,11 @@ func (node *TagNode) Render(out writer, indent int) {
 
 func (node *TagNode) Visible() bool {
 	return true
+}
+
+func (node *TagNode) ParseExpressions(source string, fn expressionFunc) (err error) {
+	node.Attributes, err = node.Attributes.ParseExpressions(source, fn)
+	return errors.Join(err, node.pairedNode.ParseExpressions(source, fn))
 }
 
 func (node *TagNode) ReplaceText(text string, with string) {

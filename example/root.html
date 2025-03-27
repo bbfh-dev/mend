@@ -8,7 +8,7 @@
     <meta name="viewport" content="user-scalable=yes, initial-scale=1.0, width=device-width" />
     <meta name="author" content="github.com/bbfh-dev/mend.html" />
     <meta name="description" content="An example website" />
-    <title>{{ -capitalize .page.title }}</title>
+    <title>{{ -to-lower -to-snake-case -capitalize -invert ^.page.title }} ({{ -get-length ^.page.title }})</title>
 </head>
 
 <body>
@@ -16,14 +16,17 @@
     <mend:slot />
     <section>
         <mend:range for="^.items">
-            <div id="{{ @index }}">
+            <div id="@index">
                 <mend:if value="{{ @index == 0 }}">
                     <b>FIRST!</b>
                 </mend:if>
                 <mend:unless value="{{ @index == 0 }}">
                     <b>NOT FIRST!</b>
                 </mend:unless>
-                <span>{{ @.name }}</span>
+                <span data-not-hello-world="{{ @.name != Hello World }}">{{ -quote @.name }}</span>
+                <footer>
+                    This is not always here: {{ -quote @.count ||}}
+                </footer>
             </div>
         </mend:range>
     </section>

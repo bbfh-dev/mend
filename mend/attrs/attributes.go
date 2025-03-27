@@ -40,6 +40,20 @@ func (attrs Attributes) ParamKeys() map[string]string {
 	return out
 }
 
+func (attrs Attributes) ParseExpressions(
+	source string,
+	fn func(string, string) (string, error),
+) (Attributes, error) {
+	for key, value := range attrs.values {
+		newValue, err := fn(source, value)
+		if err != nil {
+			return attrs, err
+		}
+		attrs.values[key] = newValue
+	}
+	return attrs, nil
+}
+
 func (attrs Attributes) ReplaceText(text string, with string) Attributes {
 	clone := Attributes{
 		order:  attrs.order,
