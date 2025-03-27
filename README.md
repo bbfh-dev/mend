@@ -2,6 +2,8 @@
 
 Mend is a simple HTML template processor designed to, but not limited to be used to generate static websites.
 
+The produced HTML is always consistently formatted and sorted.
+
 > [!IMPORTANT]
 > Mend writes into **stdout** instead of a file. This is **not** a limitation, it's an [important advantage](https://github.com/bbfh-dev/mend/wiki#taking-advantage-of-stdout).
 
