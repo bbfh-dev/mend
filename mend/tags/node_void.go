@@ -27,3 +27,7 @@ func (node *VoidNode) Render(out writer, indent int) {
 func (node *VoidNode) Visible() bool {
 	return true
 }
+
+func (node *VoidNode) ReplaceText(text string, with string) {
+	node.Attributes = node.Attributes.ReplaceText(text, with)
+}

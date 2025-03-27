@@ -9,6 +9,7 @@ import (
 type Node interface {
 	Render(out writer, indent int)
 	Visible() bool
+	ReplaceText(text string, with string)
 }
 
 type NodeWithChildren interface {
@@ -80,4 +81,10 @@ func (node *pairedNode) renderPadded(out writer, indent int) {
 
 func (node *pairedNode) Add(nodes ...Node) {
 	node.Children = append(node.Children, nodes...)
+}
+
+func (node *pairedNode) ReplaceText(text string, with string) {
+	for _, child := range node.Children {
+		child.ReplaceText(text, with)
+	}
 }

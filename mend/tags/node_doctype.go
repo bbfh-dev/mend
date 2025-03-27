@@ -24,3 +24,6 @@ func (node *DoctypeNode) Render(out writer, indent int) {
 func (node *DoctypeNode) Visible() bool {
 	return true
 }
+
+func (node *DoctypeNode) ReplaceText(text string, with string) {
+}

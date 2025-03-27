@@ -2,6 +2,7 @@ package tags
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/bbfh-dev/mend.html/mend/settings"
 )
@@ -24,4 +25,8 @@ func (node *CommentNode) Render(out writer, indent int) {
 
 func (node *CommentNode) Visible() bool {
 	return true
+}
+
+func (node *CommentNode) ReplaceText(text string, with string) {
+	node.Comment = strings.ReplaceAll(node.Comment, text, with)
 }

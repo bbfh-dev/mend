@@ -1,6 +1,8 @@
 package tags
 
 import (
+	"strings"
+
 	"github.com/bbfh-dev/mend.html/mend/settings"
 )
 
@@ -22,4 +24,8 @@ func (node *TextNode) Render(out writer, indent int) {
 
 func (node *TextNode) Visible() bool {
 	return true
+}
+
+func (node *TextNode) ReplaceText(text string, with string) {
+	node.Text = strings.ReplaceAll(node.Text, text, with)
 }

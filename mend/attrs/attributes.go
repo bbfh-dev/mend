@@ -40,6 +40,17 @@ func (attrs Attributes) ParamKeys() map[string]string {
 	return out
 }
 
+func (attrs Attributes) ReplaceText(text string, with string) Attributes {
+	clone := Attributes{
+		order:  attrs.order,
+		values: map[string]string{},
+	}
+	for key, value := range attrs.values {
+		clone.values[key] = strings.ReplaceAll(value, text, with)
+	}
+	return clone
+}
+
 func (attrs Attributes) Get(key string) string {
 	return attrs.values[key]
 }
