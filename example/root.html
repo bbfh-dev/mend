@@ -1,35 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
+<mend:extend src="std:root">
 
-<head>
-    <!-- some comment -->
-    <meta charset="UTF-8" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="user-scalable=yes, initial-scale=1.0, width=device-width" />
-    <meta name="author" content="github.com/bbfh-dev/mend" />
-    <meta name="description" content="An example website" />
-    <title>{{ -to-lower -to-snake-case -capitalize -invert ^.page.title }} ({{ -get-length ^.page.title }})</title>
-</head>
+    <head>
+        <!-- some comment -->
+        <mend:include src="std:meta" />
+        <meta name="author" content="github.com/bbfh-dev/mend" />
+        <meta name="description" content="An example website" />
+        <title>{{ -to-lower -to-snake-case -capitalize -invert ^.page.title }} ({{ -get-length ^.page.title }})</title>
+    </head>
 
-<body>
-    <mend:include src="header.html" :color="#ffffff" />
-    <mend:slot />
-    <section>
-        <mend:range for="^.items">
-            <div id="@index">
-                <mend:if value="{{ @index == 0 }}">
-                    <b>FIRST!</b>
-                </mend:if>
-                <mend:unless value="{{ @index == 0 }}">
-                    <b>NOT FIRST!</b>
-                </mend:unless>
-                <span data-not-hello-world="{{ @.name != Hello World }}">{{ -quote @.name }}</span>
-                <footer>
-                    This is not always here: {{ -quote @.count ||}}
-                </footer>
-            </div>
-        </mend:range>
-    </section>
-</body>
+    <body>
+        <mend:include src="header.html" :color="#ffffff" />
+        <mend:slot />
+        <section>
+            <mend:range for="^.items">
+                <div id="@index">
+                    <mend:if value="{{ @index == 0 }}">
+                        <b>FIRST!</b>
+                    </mend:if>
+                    <mend:unless value="{{ @index == 0 }}">
+                        <b>NOT FIRST!</b>
+                    </mend:unless>
+                    <span data-not-hello-world="{{ @.name != Hello World }}">{{ -quote @.name }}</span>
+                    <footer>
+                        This is not always here: {{ -quote @.count ||}}
+                    </footer>
+                </div>
+            </mend:range>
+        </section>
+    </body>
 
-</html>
+</mend:extend>
