@@ -2,8 +2,6 @@
 
 Mend is a simple HTML template processor designed to, but not limited to be used to generate static websites.
 
-Refer to the [Wiki](https://github.com/bbfh-dev/mend.html/wiki) for in-depth tutorial.
-
 <!-- vim-markdown-toc GFM -->
 
 * [📥 Installation](#-installation)
