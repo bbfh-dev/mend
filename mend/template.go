@@ -1,6 +1,7 @@
 package mend
 
 import (
+	"github.com/bbfh-dev/mend.html/mend/assert"
 	"github.com/bbfh-dev/mend.html/mend/attrs"
 	"github.com/bbfh-dev/mend.html/mend/tags"
 	"golang.org/x/net/html"
@@ -40,6 +41,7 @@ func NewTemplate(name string, params string) *Template {
 }
 
 func (template *Template) lastBreadcrumb() tags.NodeWithChildren {
+	assert.NotEmpty(template.breadcrumbs, "template must never have no breadcrumbs left")
 	return template.breadcrumbs[len(template.breadcrumbs)-1]
 }
 
