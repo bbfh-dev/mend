@@ -41,5 +41,7 @@ func (template *Template) branchOut() (*Template, error) {
 		return nil, template.errBranch(err)
 	}
 
+	branch.Root.MergeAttributes(template.currentAttrs.InheritAttributes())
+
 	return branch, nil
 }

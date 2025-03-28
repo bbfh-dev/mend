@@ -56,3 +56,8 @@ func (node *TagNode) Clone() Node {
 	clone.pairedNode = clone.pairedNode.Clone()
 	return &clone
 }
+
+func (node *TagNode) MergeAttributes(attrs attrs.Attributes) bool {
+	node.Attributes = node.Attributes.Merge(attrs)
+	return true
+}

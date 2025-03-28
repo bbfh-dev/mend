@@ -41,3 +41,8 @@ func (node *VoidNode) Clone() Node {
 	clone := *node
 	return &clone
 }
+
+func (node *VoidNode) MergeAttributes(attrs attrs.Attributes) bool {
+	node.Attributes = node.Attributes.Merge(attrs)
+	return true
+}

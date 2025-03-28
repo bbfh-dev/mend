@@ -40,6 +40,28 @@ func (attrs Attributes) ParamKeys() map[string]string {
 	return out
 }
 
+func (attrs Attributes) InheritAttributes() Attributes {
+	out := New([]html.Attribute{})
+	for _, key := range attrs.order {
+		if strings.HasPrefix(key, "@") {
+			out.order = append(out.order, key[1:])
+			out.values[key[1:]] = attrs.values[key]
+		}
+	}
+	return out
+}
+
+func (attrs Attributes) Merge(overwrite Attributes) Attributes {
+	for _, key := range overwrite.order {
+		_, ok := attrs.values[key]
+		if !ok {
+			attrs.order = append(attrs.order, key)
+		}
+		attrs.values[key] = overwrite.values[key]
+	}
+	return attrs
+}
+
 func (attrs Attributes) ParseExpressions(
 	source string,
 	fn func(string, string) (string, error),

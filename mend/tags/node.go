@@ -15,6 +15,7 @@ type Node interface {
 	ParseExpressions(string, expressionFunc) error
 	ReplaceText(text string, with string)
 	Clone() Node
+	MergeAttributes(attrs attrs.Attributes) (ok bool)
 }
 
 type NodeWithChildren interface {
@@ -113,4 +114,13 @@ func (node *pairedNode) Clone() *pairedNode {
 	}
 	clone.Children = children
 	return &clone
+}
+
+func (node *pairedNode) MergeAttributes(attrs attrs.Attributes) bool {
+	for _, child := range node.Children {
+		if child.MergeAttributes(attrs) {
+			return true
+		}
+	}
+	return false
 }

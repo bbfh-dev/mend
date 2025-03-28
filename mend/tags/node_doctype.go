@@ -3,6 +3,7 @@ package tags
 import (
 	"fmt"
 
+	"github.com/bbfh-dev/mend/mend/attrs"
 	"github.com/bbfh-dev/mend/mend/settings"
 )
 
@@ -35,4 +36,8 @@ func (node *DoctypeNode) ReplaceText(text string, with string) {
 func (node *DoctypeNode) Clone() Node {
 	clone := *node
 	return &clone
+}
+
+func (node *DoctypeNode) MergeAttributes(attrs attrs.Attributes) bool {
+	return false
 }

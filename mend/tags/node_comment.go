@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/bbfh-dev/mend/mend/attrs"
 	"github.com/bbfh-dev/mend/mend/settings"
 )
 
@@ -39,4 +40,8 @@ func (node *CommentNode) ReplaceText(text string, with string) {
 func (node *CommentNode) Clone() Node {
 	clone := *node
 	return &clone
+}
+
+func (node *CommentNode) MergeAttributes(attrs attrs.Attributes) bool {
+	return false
 }
