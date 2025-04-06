@@ -77,9 +77,13 @@ func (template *Template) process(tokenType html.TokenType) error {
 		}
 
 		var builder strings.Builder
-		for _, line := range strings.Split(template.currentText, "\n") {
+		lines := strings.Split(template.currentText, "\n")
+		lastLine := len(lines) - 1
+		for i, line := range lines {
 			builder.WriteString(strings.TrimSpace(line))
-			builder.WriteString(" ")
+			if i != lastLine {
+				builder.WriteString(" ")
+			}
 		}
 		template.append(tags.NewTextNode(builder.String()))
 
