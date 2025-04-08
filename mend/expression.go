@@ -7,8 +7,8 @@ import (
 	"github.com/tidwall/gjson"
 )
 
-const bracketOpen = "{{"
-const bracketClose = "}}"
+const bracketOpen = "[["
+const bracketClose = "]]"
 
 type modifier func(original string) string
 

@@ -5,7 +5,7 @@
         <mend:include src="std:meta" />
         <meta name="author" content="github.com/bbfh-dev/mend" />
         <meta name="description" content="An example website" />
-        <title>{{ -to-lower -to-snake-case -capitalize -invert ^.page.title }} ({{ -get-length ^.page.title }})</title>
+        <title>[[ -to-lower -to-snake-case -capitalize -invert ^.page.title ]] ([[ -get-length ^.page.title ]])</title>
     </head>
 
     <body>
@@ -14,15 +14,15 @@
         <section>
             <mend:range for="^.items">
                 <div id="@index">
-                    <mend:if value="{{ @index == 0 }}">
+                    <mend:if value="[[ @index == 0 ]]">
                         <b>FIRST!</b>
                     </mend:if>
-                    <mend:unless value="{{ @index == 0 }}">
+                    <mend:unless value="[[ @index == 0 ]]">
                         <b>NOT FIRST!</b>
                     </mend:unless>
-                    <span data-not-hello-world="{{ @.name != Hello World }}">{{ -quote @.name }}</span>
+                    <span data-not-hello-world="[[ @.name != Hello World ]]">[[ -quote @.name ]]</span>
                     <footer>
-                        This is not always here: {{ -quote @.count ||}}
+                        This is not always here: [[ -quote @.count ||]]
                     </footer>
                 </div>
             </mend:range>
