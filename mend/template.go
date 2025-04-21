@@ -7,8 +7,7 @@ import (
 	"golang.org/x/net/html"
 )
 
-const PREFIX = "mend:"
-const PREFIX_LEN = len(PREFIX)
+const MEND_PREFIX = "mend:"
 
 type Template struct {
 	Name   string

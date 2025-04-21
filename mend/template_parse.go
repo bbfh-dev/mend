@@ -88,12 +88,12 @@ func (template *Template) process(tokenType html.TokenType) error {
 		template.append(tags.NewTextNode(builder.String()))
 
 	case html.SelfClosingTagToken:
-		if !strings.HasPrefix(template.currentText, PREFIX) {
+		if !strings.HasPrefix(template.currentText, MEND_PREFIX) {
 			node := tags.NewVoidNode(template.currentText, template.currentAttrs)
 			template.append(node)
 			break
 		}
-		switch template.currentText[PREFIX_LEN:] {
+		switch strings.TrimPrefix(template.currentText, MEND_PREFIX) {
 
 		case tags.TAG_INCLUDE:
 			branch, err := template.branchOut()
@@ -112,7 +112,7 @@ func (template *Template) process(tokenType html.TokenType) error {
 		}
 
 	case html.StartTagToken:
-		if !strings.HasPrefix(template.currentText, PREFIX) {
+		if !strings.HasPrefix(template.currentText, MEND_PREFIX) {
 			// Is it actually a self-closing tag with wrong syntax?
 			if slices.Contains(attrs.SelfClosingTags, template.currentText) {
 				return template.process(html.SelfClosingTagToken)
@@ -122,7 +122,7 @@ func (template *Template) process(tokenType html.TokenType) error {
 			template.appendLevel(node)
 			break
 		}
-		switch template.currentText[PREFIX_LEN:] {
+		switch strings.TrimPrefix(template.currentText, MEND_PREFIX) {
 
 		case tags.TAG_EXTEND:
 			branch, err := template.branchOut()
