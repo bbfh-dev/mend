@@ -88,31 +88,98 @@ func (template *Template) process(tokenType html.TokenType) error {
 		template.append(tags.NewTextNode(builder.String()))
 
 	case html.SelfClosingTagToken:
-		if !strings.HasPrefix(template.currentText, MEND_PREFIX) {
-			node := tags.NewVoidNode(template.currentText, template.currentAttrs)
-			template.append(node)
-			break
-		}
-		switch strings.TrimPrefix(template.currentText, MEND_PREFIX) {
+		switch {
 
-		case tags.TAG_INCLUDE:
-			branch, err := template.branchOut()
-			if err != nil {
-				return err
+		case strings.HasPrefix(template.currentText, MEND_PREFIX):
+			switch strings.TrimPrefix(template.currentText, MEND_PREFIX) {
+
+			case tags.TAG_INCLUDE:
+				branch, err := template.branchOut()
+				if err != nil {
+					return err
+				}
+				template.append(branch.Root)
+
+			case tags.TAG_SLOT:
+				node := tags.NewRootNode()
+				template.append(node)
+				template.Slot = node
+
+			default:
+				return template.errUnknownTag()
 			}
-			template.append(branch.Root)
 
-		case tags.TAG_SLOT:
-			node := tags.NewRootNode()
-			template.append(node)
-			template.Slot = node
+		case strings.HasPrefix(template.currentText, PKG_PREFIX):
 
 		default:
-			return template.errUnknownTag()
+			node := tags.NewVoidNode(template.currentText, template.currentAttrs)
+			template.append(node)
+			return nil
 		}
 
 	case html.StartTagToken:
-		if !strings.HasPrefix(template.currentText, MEND_PREFIX) {
+		switch {
+
+		case strings.HasPrefix(template.currentText, MEND_PREFIX):
+			switch strings.TrimPrefix(template.currentText, MEND_PREFIX) {
+
+			case tags.TAG_EXTEND:
+				branch, err := template.branchOut()
+				if err != nil {
+					return err
+				}
+				node := tags.NewCustomExtendNode()
+				node.Inner.Add(branch.Root)
+				node.Slot = branch.Slot
+				template.appendLevel(node)
+
+			case tags.TAG_RANGE:
+				if !template.currentAttrs.Contains("for") {
+					return template.errMissingAttribute("for")
+				}
+				variable := template.currentAttrs.Get("for")
+
+				var result gjson.Result
+				if strings.HasPrefix(variable, "^.") {
+					result = gjson.Get(settings.GlobalParams, variable[2:])
+				} else {
+					result = gjson.Get(template.Params, variable)
+				}
+
+				if !result.Exists() {
+					return template.errUndefinedParam(variable)
+				}
+				if !result.IsArray() {
+					return fmt.Errorf(
+						"parameter %q is not an array! It's set to: `%s`",
+						variable,
+						result.String(),
+					)
+				}
+				node := tags.NewCustomRangeNode(variable, result)
+				template.appendLevel(node)
+
+			case tags.TAG_IF:
+				node := tags.NewCustomIfNode(
+					template.currentAttrs.GetOrFallback("value", "true"),
+					true,
+				)
+				template.appendLevel(node)
+
+			case tags.TAG_UNLESS:
+				node := tags.NewCustomIfNode(
+					template.currentAttrs.GetOrFallback("value", "true"),
+					false,
+				)
+				template.appendLevel(node)
+
+			default:
+				return template.errUnknownTag()
+			}
+
+		case strings.HasPrefix(template.currentText, PKG_PREFIX):
+
+		default:
 			// Is it actually a self-closing tag with wrong syntax?
 			if slices.Contains(attrs.SelfClosingTags, template.currentText) {
 				return template.process(html.SelfClosingTagToken)
@@ -120,62 +187,7 @@ func (template *Template) process(tokenType html.TokenType) error {
 
 			node := tags.NewTagNode(template.currentText, template.currentAttrs)
 			template.appendLevel(node)
-			break
-		}
-		switch strings.TrimPrefix(template.currentText, MEND_PREFIX) {
-
-		case tags.TAG_EXTEND:
-			branch, err := template.branchOut()
-			if err != nil {
-				return err
-			}
-			node := tags.NewCustomExtendNode()
-			node.Inner.Add(branch.Root)
-			node.Slot = branch.Slot
-			template.appendLevel(node)
-
-		case tags.TAG_RANGE:
-			if !template.currentAttrs.Contains("for") {
-				return template.errMissingAttribute("for")
-			}
-			variable := template.currentAttrs.Get("for")
-
-			var result gjson.Result
-			if strings.HasPrefix(variable, "^.") {
-				result = gjson.Get(settings.GlobalParams, variable[2:])
-			} else {
-				result = gjson.Get(template.Params, variable)
-			}
-
-			if !result.Exists() {
-				return template.errUndefinedParam(variable)
-			}
-			if !result.IsArray() {
-				return fmt.Errorf(
-					"parameter %q is not an array! It's set to: `%s`",
-					variable,
-					result.String(),
-				)
-			}
-			node := tags.NewCustomRangeNode(variable, result)
-			template.appendLevel(node)
-
-		case tags.TAG_IF:
-			node := tags.NewCustomIfNode(
-				template.currentAttrs.GetOrFallback("value", "true"),
-				true,
-			)
-			template.appendLevel(node)
-
-		case tags.TAG_UNLESS:
-			node := tags.NewCustomIfNode(
-				template.currentAttrs.GetOrFallback("value", "true"),
-				false,
-			)
-			template.appendLevel(node)
-
-		default:
-			return template.errUnknownTag()
+			return nil
 		}
 
 	case html.EndTagToken:

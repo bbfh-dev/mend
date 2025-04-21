@@ -8,6 +8,7 @@ import (
 )
 
 const MEND_PREFIX = "mend:"
+const PKG_PREFIX = "pkg:"
 
 type Template struct {
 	Name   string
