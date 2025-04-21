@@ -4,26 +4,13 @@ import (
 	"encoding/json"
 	"io/fs"
 	"os"
-	"path/filepath"
-	"strings"
-
-	"github.com/bbfh-dev/mend/mend/std"
 )
 
-func (template *Template) branchOut() (*Template, error) {
-	if !template.currentAttrs.Contains("src") {
-		return nil, template.errMissingAttribute("src")
-	}
-	src := template.currentAttrs.Get("src")
+func (template *Template) branchOut(src string) (*Template, error) {
 	var file fs.File
 	var err error
 
-	if strings.HasPrefix(src, std.PREFIX) {
-		file, err = std.Open(src[std.PREFIX_LEN:])
-	} else {
-		src = filepath.Join(filepath.Dir(template.Name), src)
-		file, err = os.OpenFile(src, os.O_RDONLY, os.ModePerm)
-	}
+	file, err = os.OpenFile(src, os.O_RDONLY, os.ModePerm)
 
 	if err != nil {
 		return nil, err

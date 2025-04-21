@@ -94,7 +94,12 @@ func (template *Template) process(tokenType html.TokenType) error {
 			switch strings.TrimPrefix(template.currentText, MEND_PREFIX) {
 
 			case tags.TAG_INCLUDE:
-				branch, err := template.branchOut()
+				if !template.currentAttrs.Contains("src") {
+					return template.errMissingAttribute("src")
+				}
+				src := template.currentAttrs.Get("src")
+				src = filepath.Join(filepath.Dir(template.Name), src)
+				branch, err := template.branchOut(src)
 				if err != nil {
 					return err
 				}
@@ -110,6 +115,20 @@ func (template *Template) process(tokenType html.TokenType) error {
 			}
 
 		case strings.HasPrefix(template.currentText, PKG_PREFIX):
+			tag := strings.TrimPrefix(template.currentText, PKG_PREFIX)
+			location, exists := template.Find(tag + ".html")
+			if !exists {
+				return fmt.Errorf(
+					"can't resolve <%s> inside of %s",
+					template.currentText,
+					filepath.Dir(template.Name),
+				)
+			}
+			branch, err := template.branchOut(location)
+			if err != nil {
+				return err
+			}
+			template.append(branch.Root)
 
 		default:
 			node := tags.NewVoidNode(template.currentText, template.currentAttrs)
@@ -124,7 +143,12 @@ func (template *Template) process(tokenType html.TokenType) error {
 			switch strings.TrimPrefix(template.currentText, MEND_PREFIX) {
 
 			case tags.TAG_EXTEND:
-				branch, err := template.branchOut()
+				if !template.currentAttrs.Contains("src") {
+					return template.errMissingAttribute("src")
+				}
+				src := template.currentAttrs.Get("src")
+				src = filepath.Join(filepath.Dir(template.Name), src)
+				branch, err := template.branchOut(src)
 				if err != nil {
 					return err
 				}
@@ -178,6 +202,23 @@ func (template *Template) process(tokenType html.TokenType) error {
 			}
 
 		case strings.HasPrefix(template.currentText, PKG_PREFIX):
+			tag := strings.TrimPrefix(template.currentText, PKG_PREFIX)
+			location, exists := template.Find(tag + ".html")
+			if !exists {
+				return fmt.Errorf(
+					"can't resolve <%s> inside of %s",
+					template.currentText,
+					filepath.Dir(template.Name),
+				)
+			}
+			branch, err := template.branchOut(location)
+			if err != nil {
+				return err
+			}
+			node := tags.NewCustomExtendNode()
+			node.Inner.Add(branch.Root)
+			node.Slot = branch.Slot
+			template.appendLevel(node)
 
 		default:
 			// Is it actually a self-closing tag with wrong syntax?
