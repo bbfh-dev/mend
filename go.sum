@@ -1,5 +1,5 @@
-github.com/bbfh-dev/parsex v1.0.1 h1:51zL/QyaYY5zvj72lQGCAraJ+16fI2K2rwqYJ7ztAnI=
-github.com/bbfh-dev/parsex v1.0.1/go.mod h1:AYMdw/P+JixorextRBJzMVbWZlDKDH5xBX05WFVg3j0=
+github.com/bbfh-dev/parsex/v2 v2.0.1-beta h1:AJoVHPLVGlSk6Hiyr9KAE4QM+3S4rY+uiJswx4SWyU4=
+github.com/bbfh-dev/parsex/v2 v2.0.1-beta/go.mod h1:mUhq/3DUhv062sQz7wTDdMmzvtomf12iF5o3w7D2a7k=
 github.com/iancoleman/strcase v0.3.0 h1:nTXanmYxhfFAMjZL34Ov6gkzEsSJZ5DbhxWjvSASxEI=
 github.com/iancoleman/strcase v0.3.0/go.mod h1:iwCmte+B7n89clKwxIoIXy/HfoL7AsD47ZCWhYzw7ho=
 github.com/tidwall/gjson v1.18.0 h1:FIDeeyB800efLX89e5a8Y0BNH+LOngJyGrIWxG2FKQY=
