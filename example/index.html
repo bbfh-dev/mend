@@ -1,4 +1,32 @@
 {{ define "index" }}
 <pkg:root :title="Home" :searchbar="true">
+    <pkg:heading class="%s is-center width-content">
+        <h1>Welcome!</h1>
+        <p class="is-center">
+            Smithed is an open-source platform for exploring, sharing <br />
+            and supercharging minecraft data & resource packs.
+        </p>
+    </pkg:heading>
+
+    <pkg:grid :cols="2" class="%s width-content">
+        <section class="o-landing-carousell">
+            <div id="js-carousell-1" data-i="1">
+                {{ range .Cards }}
+                {{ template "pack_card" .Trending }}
+                {{ end }}
+            </div>
+        </section>
+        <section class="o-landing-carousell">
+            <div id="js-carousell-2" data-i="1">
+                {{ range .Cards }}
+                {{ template "pack_card" .Newest }}
+                {{ end }}
+            </div>
+        </section>
+    </pkg:grid>
+
+    <pkg:separator class="%s width-content">
+        What is Smithed exactly?
+    </pkg:separator>
 </pkg:root>
 {{ end }}
