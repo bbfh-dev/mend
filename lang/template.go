@@ -9,7 +9,7 @@ import (
 	"golang.org/x/net/html"
 )
 
-const MEND_PREFIX = ":"
+const MEND_PREFIX = "mend:"
 const PKG_PREFIX = "pkg:"
 
 type Template struct {
@@ -24,6 +24,7 @@ type Template struct {
 	thisText      string
 	thisAttrs     *attrs.Attributes
 	thisLineIndex int
+	thisIndent    int
 }
 
 func New(indent int, ctx *context.Context, dir, name string) *Template {
@@ -31,12 +32,13 @@ func New(indent int, ctx *context.Context, dir, name string) *Template {
 		Dir:           dir,
 		Name:          name,
 		Context:       ctx,
-		Breadcrumbs:   []templating.PairedTag{templating.NewPairedBase(indent)},
+		Breadcrumbs:   []templating.PairedTag{templating.NewMendSlot(indent)},
 		Slot:          nil,
 		thisToken:     html.Token{},
 		thisText:      "",
 		thisAttrs:     nil,
 		thisLineIndex: 0,
+		thisIndent:    indent,
 	}
 }
 
@@ -55,6 +57,7 @@ func (template *Template) Pivot() templating.PairedTag {
 func (template *Template) EnterPivot(tag templating.PairedTag) {
 	template.Pivot().Append(tag)
 	template.Breadcrumbs = append(template.Breadcrumbs, tag)
+	template.thisIndent++
 }
 
 func (template *Template) ExitPivot() {
@@ -62,4 +65,17 @@ func (template *Template) ExitPivot() {
 		return
 	}
 	template.Breadcrumbs = template.Breadcrumbs[:len(template.Breadcrumbs)-1]
+	template.thisIndent--
+}
+
+func (template *Template) requireAttr(key string) (string, error) {
+	src, ok := template.thisAttrs.Values[key]
+	if !ok {
+		return "", fmt.Errorf(
+			"<%s> requires an `:%s=\"...\"` attribute",
+			template.thisText,
+			key,
+		)
+	}
+	return src, nil
 }

@@ -2,6 +2,7 @@ package context
 
 import (
 	"fmt"
+	"path/filepath"
 	"slices"
 	"strings"
 	"unicode"
@@ -139,7 +140,8 @@ func (ctx *Context) Compute(expression string) (string, error) {
 	return result, nil
 }
 
-func (ctx *Context) queryPath(field string) (result string, err error) {
+func (ctx *Context) queryPath(fieldPath string) (result string, err error) {
+	field := strings.TrimSuffix(fieldPath, "?")
 	segments := strings.Split(field, ".")[1:]
 	path := make([]string, 0, len(segments))
 	operations := make([]string, 0, len(segments))
@@ -160,6 +162,9 @@ func (ctx *Context) queryPath(field string) (result string, err error) {
 	}
 
 	if err != nil {
+		if strings.HasSuffix(fieldPath, "?") {
+			return "", nil
+		}
 		return "", fmt.Errorf("%s: %w", field, err)
 	}
 
@@ -181,6 +186,14 @@ func (ctx *Context) queryPath(field string) (result string, err error) {
 			result = strings.ToUpper(result[:1]) + result[1:]
 		case "length":
 			result = fmt.Sprintf("%d", len(result))
+		case "filename":
+			result = filepath.Base(result)
+		case "dir":
+			result = filepath.Dir(result)
+		case "extension":
+			result = filepath.Ext(result)
+		case "trim_extension":
+			result = strings.TrimSuffix(result, filepath.Ext(result))
 		default:
 			return "", fmt.Errorf("%s: unknown operation %q on %q", field, operation+"()", result)
 		}

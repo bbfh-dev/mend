@@ -29,12 +29,8 @@ func (tag *DefaultTag) Render(writer printer.Writer) {
 	tag.Attrs.Render(writer)
 	writer.WriteString(">\n")
 
-	tag.RenderBody(writer)
+	tag.BasePairedTag.Render(writer)
 
 	tag.BaseTag.Render(writer)
 	fmt.Fprintf(writer, "</%s>", tag.Name)
-}
-
-func (tag *DefaultTag) RenderBody(writer printer.Writer) {
-	tag.BasePairedTag.Render(writer)
 }

@@ -42,6 +42,7 @@ func TestContextExpressions(test *testing.T) {
 	assert.NotNil(ctx)
 
 	ctx.Set([]string{"a", "b", "c"}, "Hello World!")
+	ctx.Set([]string{"a", "path"}, "/tmp/some/filename.html")
 
 	var cases = []struct {
 		Expression string
@@ -131,6 +132,16 @@ func TestContextExpressions(test *testing.T) {
 			Expression: "this.a.b.c.length() == this.a.b.c.to_camel_case().length()",
 			ExpectErr:  false,
 			Expect:     "false",
+		},
+		{
+			Expression: "this.a.path.extension()",
+			ExpectErr:  false,
+			Expect:     ".html",
+		},
+		{
+			Expression: "this.a.path.filename().trim_extension()",
+			ExpectErr:  false,
+			Expect:     "filename",
 		},
 		{
 			Expression: "this.a.b.unknown == 69",

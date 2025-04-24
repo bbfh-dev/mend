@@ -1,6 +1,8 @@
 package templating
 
-import "github.com/bbfh-dev/mend/lang/printer"
+import (
+	"github.com/bbfh-dev/mend/lang/printer"
+)
 
 type BasePairedTag struct {
 	*BaseTag
@@ -16,6 +18,7 @@ func NewPairedBase(indent int) *BasePairedTag {
 
 func (tag *BasePairedTag) Render(writer printer.Writer) {
 	for _, child := range tag.Children {
+		// fmt.Fprintf(writer, "<!-- %s %+v -->\n", reflect.TypeOf(child), child)
 		switch child.Visibility() {
 		case VISIBLE:
 			child.Render(writer)
@@ -26,7 +29,7 @@ func (tag *BasePairedTag) Render(writer printer.Writer) {
 	}
 }
 
-func (tag *BasePairedTag) Offset(offset int) {
+func (tag *BasePairedTag) Shift(offset int) {
 	tag.BaseTag.Shift(offset)
 	for _, child := range tag.Children {
 		child.Shift(offset)

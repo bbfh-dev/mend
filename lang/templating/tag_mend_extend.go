@@ -1,6 +1,8 @@
 package templating
 
-import "github.com/bbfh-dev/mend/lang/printer"
+import (
+	"github.com/bbfh-dev/mend/lang/printer"
+)
 
 type MendExtendTag struct {
 	*BasePairedTag
@@ -8,7 +10,7 @@ type MendExtendTag struct {
 	Slot *MendSlotTag
 }
 
-func NewExtendSlot(indent int, root PairedTag, slot *MendSlotTag) *MendExtendTag {
+func NewMendExtend(indent int, root PairedTag, slot *MendSlotTag) *MendExtendTag {
 	return &MendExtendTag{
 		BasePairedTag: NewPairedBase(indent),
 		Root:          root,
