@@ -1,5 +1,4 @@
-<pkg:root>
-    <main>
-        [[ .title || "Hello World" ]]
-    </main>
+{{ define "index" }}
+<pkg:root :title="Home" :searchbar="true">
 </pkg:root>
+{{ end }}

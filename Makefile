@@ -1,4 +1,4 @@
-VERSION := v0.2.0-alpha
+VERSION := v1.0.0-alpha
 BINARY_NAME := mend
 
 run:
