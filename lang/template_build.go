@@ -139,6 +139,25 @@ func (template *Template) buildToken(tokenType html.TokenType) error {
 				template.Slot = tag
 
 			case "if":
+				checkTrue, okTrue := template.thisAttrs.Values[":true"]
+				checkFalse, okFalse := template.thisAttrs.Values[":false"]
+				switch {
+				case okTrue:
+					if checkTrue != "true" {
+						template.EnterPivot(templating.NewMendVoid())
+						return nil
+					}
+				case okFalse:
+					if checkFalse != "false" {
+						template.EnterPivot(templating.NewMendVoid())
+						return nil
+					}
+				default:
+					return fmt.Errorf(
+						"<mend:if> requires a `:true=\"...\"` or `:false=\"...\"` attribute",
+					)
+				}
+				template.EnterPivot(templating.NewMendSlot())
 
 			case "extend":
 				src, err := template.requireAttr(":src")
