@@ -7,6 +7,7 @@ import (
 	"golang.org/x/net/html"
 )
 
+// XML attributes in a sorted manner
 type Attributes struct {
 	order  []string
 	Values map[string]string
@@ -26,6 +27,7 @@ func New(sourceAttrs []html.Attribute) *Attributes {
 	return attrs.Sort()
 }
 
+// NOTE: It prepends " " (space) to the output
 func (attrs *Attributes) Render(out printer.Writer) {
 	for _, key := range attrs.order {
 		out.WriteString(" ")
@@ -33,6 +35,7 @@ func (attrs *Attributes) Render(out printer.Writer) {
 	}
 }
 
+// Overrides or saves new attribute. Use %s to format the original attribute
 func (attrs *Attributes) OverrideAttr(key string, value string) {
 	original, ok := attrs.Values[key]
 	if !ok {

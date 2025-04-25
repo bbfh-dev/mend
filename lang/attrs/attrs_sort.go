@@ -2,6 +2,7 @@ package attrs
 
 import "sort"
 
+// Sorts all attributes based on [AttrSortOrder]
 func (attrs *Attributes) Sort() *Attributes {
 	order := make(map[string]int)
 	for i, s := range AttrSortOrder {
