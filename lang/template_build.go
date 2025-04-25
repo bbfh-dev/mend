@@ -39,7 +39,7 @@ func (template *Template) Build(reader io.Reader) error {
 		}
 
 		if tokenType == html.TextToken {
-			template.thisLineIndex += strings.Count(template.thisText, "\n")
+			template.thisLineIndex += strings.Count(template.thisToken.Data, "\n")
 		}
 
 		if err := template.buildToken(tokenType); err != nil {
