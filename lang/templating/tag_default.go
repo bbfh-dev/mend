@@ -9,16 +9,15 @@ import (
 
 type DefaultTag struct {
 	*BasePairedTag
-	BaseDefaultTag
+	Name  string
+	Attrs *attrs.Attributes
 }
 
 func NewDefault(name string, attrs *attrs.Attributes) *DefaultTag {
 	return &DefaultTag{
 		BasePairedTag: NewPairedBase(),
-		BaseDefaultTag: BaseDefaultTag{
-			Name:  name,
-			Attrs: attrs,
-		},
+		Name:          name,
+		Attrs:         attrs,
 	}
 }
 

@@ -9,16 +9,15 @@ import (
 
 type SelfClosingTag struct {
 	*BaseTag
-	BaseDefaultTag
+	Name  string
+	Attrs *attrs.Attributes
 }
 
 func NewSelfClosing(name string, attrs *attrs.Attributes) *SelfClosingTag {
 	return &SelfClosingTag{
 		BaseTag: NewBase(),
-		BaseDefaultTag: BaseDefaultTag{
-			Name:  name,
-			Attrs: attrs,
-		},
+		Name:    name,
+		Attrs:   attrs,
 	}
 }
 
