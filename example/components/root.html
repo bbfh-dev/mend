@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- some comment -->
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="user-scalable=yes, initial-scale=1.0, width=device-width" />
+    <meta name="author" content="github.com/bbfh-dev/mend" />
+    <meta name="description" content="An example website" />
+
+    <title>[[ this.title ]] — Smithed™</title>
+
+    <link rel="stylesheet" href="/static/styles.min.css?checksum=[[ root.checksum ]]" />
+    <script src="/static/main.js"></script>
+    <script src="/static/page_[[ root.@file.filename().trim_extension() ]].js"></script>
+</head>
+
+<body class="theme-default">
+    <header>
+        <pkg:unmarked-link href="/" style="grid-area: logotype;">
+            <pkg:icon :name="smithed" :size="32" />
+            <h2 class="a-hide-wide">Smithed</h2>
+        </pkg:unmarked-link>
+
+        <pkg:unmarked-link :label="Browse" href="/browse" style="grid-area: browse;" />
+
+        <pkg:unmarked-link :label="Articles" href="" style="grid-area: articles;" />
+
+        <pkg:unmarked-link href="" style="grid-area: weld;">
+            Weld
+            <pkg:icon :name="popout" />
+        </pkg:unmarked-link>
+
+        <mend:if :true="[[ this.searchbar ]]">
+            <div class="w-input is-flex">
+                <pkg:icon :name="search" />
+                <input id="searchbar" type="text" placeholder="Search..." />
+            </div>
+        </mend:if>
+
+        <mend:if :false="[[ this.searchbar ]]">
+            <div class="is-flex" style="grid-area: searchbar;"></div>
+        </mend:if>
+
+        <pkg:unmarked-link href="" style="grid-area: weld;">
+            Inbox
+            <pkg:icon :name="notification-unread" class="%s a-hide-content a-show-tablet" />
+        </pkg:unmarked-link>
+
+        <pkg:button :type="accent" :label="Log in" :icon="user" style="grid-area: profile;" />
+    </header>
+    <!-- ... -->
+    <main>
+        <mend:slot />
+    </main>
+    <!-- ... -->
+    <footer class="--centered">
+        <div>
+            <section>
+                <h2>
+                    ABOUT
+                </h2>
+                <pkg:unmarked-link :label="About Smithed" href="" />
+                <pkg:unmarked-link :label="How to Contribute" href="" />
+                <pkg:unmarked-link :label="Donate" href="" />
+            </section>
+            <section>
+                <h2>
+                    COMMUNITY
+                </h2>
+                <pkg:unmarked-link :label="Discord" href="" />
+                <pkg:unmarked-link :label="Guidelines" href="" />
+                <pkg:unmarked-link :label="Wiki" href="" />
+            </section>
+            <section>
+                <h2>
+                    LEGAL
+                </h2>
+                <pkg:unmarked-link :label="Terms of Use" href="" />
+                <pkg:unmarked-link :label="Privacy Policy" href="" />
+                <pkg:unmarked-link :label="Cookies" href="" />
+            </section>
+        </div>
+        <section>
+            <b>Copyright © 2018-2025 Smithed</b>
+            <p>
+                <em>Not an official Minecraft product. Not approved by or associated with Mojang Studios</em>
+            </p>
+        </section>
+    </footer>
+</body>
+
+</html>
