@@ -28,3 +28,8 @@ func (tag *SelfClosingTag) Render(writer printer.Writer, indent int) {
 	tag.Attrs.Render(writer)
 	writer.WriteString(" />")
 }
+
+func (tag *SelfClosingTag) OverrideAttr(key, value string) bool {
+	tag.Attrs.OverrideAttr(key, value)
+	return true
+}

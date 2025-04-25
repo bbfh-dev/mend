@@ -16,6 +16,7 @@ type Tag interface {
 	Render(writer printer.Writer, indent int)
 	Visibility() visibility
 	Clone() Tag
+	OverrideAttr(key string, value string) bool
 }
 
 type PairedTag interface {

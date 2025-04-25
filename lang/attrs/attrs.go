@@ -33,6 +33,18 @@ func (attrs *Attributes) Render(out printer.Writer) {
 	}
 }
 
+func (attrs *Attributes) OverrideAttr(key string, value string) {
+	original, ok := attrs.Values[key]
+	if !ok {
+		attrs.order = append(attrs.order, key)
+		attrs.Values[key] = value
+		attrs.Sort()
+		return
+	}
+
+	attrs.Values[key] = fmt.Sprintf(value, original)
+}
+
 func (attrs *Attributes) renderKey(out printer.Writer, key string) {
 	if len(attrs.Values[key]) == 0 {
 		out.WriteString(key)

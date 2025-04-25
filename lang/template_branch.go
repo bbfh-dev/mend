@@ -5,6 +5,7 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/bbfh-dev/mend/lang/context"
 )
@@ -24,6 +25,13 @@ func (template *Template) BranchOut(location string) (*Template, error) {
 	)
 	if err := branch.Build(file); err != nil {
 		return nil, err
+	}
+
+	for key, attr := range template.thisAttrs.Values {
+		if strings.HasPrefix(key, ":") {
+			continue
+		}
+		branch.Root().OverrideAttr(key, attr)
 	}
 
 	return branch, nil

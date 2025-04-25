@@ -23,3 +23,7 @@ func (tag *BaseTag) Clone() Tag {
 	clone := *tag
 	return &clone
 }
+
+func (tag *BaseTag) OverrideAttr(key string, value string) bool {
+	return false
+}

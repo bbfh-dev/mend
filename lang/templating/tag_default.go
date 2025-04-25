@@ -33,3 +33,8 @@ func (tag *DefaultTag) Render(writer printer.Writer, indent int) {
 	tag.BaseTag.Render(writer, indent)
 	fmt.Fprintf(writer, "</%s>", tag.Name)
 }
+
+func (tag *DefaultTag) OverrideAttr(key, value string) bool {
+	tag.Attrs.OverrideAttr(key, value)
+	return true
+}

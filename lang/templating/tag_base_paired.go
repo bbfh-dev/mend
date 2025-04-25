@@ -36,3 +36,12 @@ func (tag *BasePairedTag) SetChildren(tags []Tag) {
 func (tag *BasePairedTag) Append(tags ...Tag) {
 	tag.Children = append(tag.Children, tags...)
 }
+
+func (tag *BasePairedTag) OverrideAttr(key string, value string) bool {
+	for _, child := range tag.Children {
+		if child.OverrideAttr(key, value) {
+			return true
+		}
+	}
+	return false
+}
