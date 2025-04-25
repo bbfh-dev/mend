@@ -16,6 +16,7 @@ var Options struct {
 	Indent        int    `default:"4" desc:"The amount of spaces to be used for indentation (overwriten by --tabs)"`
 	StripComments bool   `desc:"Strips away HTML comments from the output"`
 	Input         string `desc:"Provide input to the provided files in the following format: 'attr1=value1,attr2.a.b.c=value2,...'"`
+	Output        string `desc:"(Optional) output path. Use '.' to substitute the same filename (e.g. './out/.' -> './out/input.html')"`
 }
 
 func Main(args []string) error {
@@ -55,7 +56,23 @@ func Main(args []string) error {
 			return err
 		}
 
-		template.Root().Render(os.Stdout, -1)
+		out := os.Stdout
+		if Options.Output != "" {
+			if strings.HasSuffix(Options.Output, ".") {
+				Options.Output = strings.TrimSuffix(Options.Output, ".") + base
+			}
+
+			if err := os.MkdirAll(filepath.Dir(Options.Output), os.ModePerm); err != nil {
+				return err
+			}
+
+			out, err = os.OpenFile(Options.Output, os.O_WRONLY|os.O_TRUNC|os.O_CREATE, os.ModePerm)
+			if err != nil {
+				return err
+			}
+		}
+
+		template.Root().Render(out, -1)
 	}
 
 	return nil
