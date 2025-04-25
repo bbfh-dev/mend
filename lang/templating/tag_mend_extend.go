@@ -10,16 +10,16 @@ type MendExtendTag struct {
 	Slot *MendSlotTag
 }
 
-func NewMendExtend(indent int, root PairedTag, slot *MendSlotTag) *MendExtendTag {
+func NewMendExtend(root PairedTag, slot *MendSlotTag) *MendExtendTag {
 	return &MendExtendTag{
-		BasePairedTag: NewPairedBase(indent),
+		BasePairedTag: NewPairedBase(),
 		Root:          root,
 		Slot:          slot,
 	}
 }
 
-func (tag *MendExtendTag) Render(writer printer.Writer) {
-	tag.Root.Render(writer)
+func (tag *MendExtendTag) Render(writer printer.Writer, indent int) {
+	tag.Root.Render(writer, indent)
 }
 
 func (tag *MendExtendTag) Visibility() visibility {

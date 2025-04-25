@@ -13,10 +13,8 @@ const (
 )
 
 type Tag interface {
-	Render(writer printer.Writer)
+	Render(writer printer.Writer, indent int)
 	Visibility() visibility
-	Indent() int
-	Shift(offset int)
 	Clone() Tag
 }
 

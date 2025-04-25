@@ -11,14 +11,14 @@ type DoctypeTag struct {
 	Doctype string
 }
 
-func NewDoctype(indent int, doctype string) *DoctypeTag {
+func NewDoctype(doctype string) *DoctypeTag {
 	return &DoctypeTag{
-		BaseTag: NewBase(indent),
+		BaseTag: NewBase(),
 		Doctype: doctype,
 	}
 }
 
-func (tag *DoctypeTag) Render(writer printer.Writer) {
-	tag.BaseTag.Render(writer)
+func (tag *DoctypeTag) Render(writer printer.Writer, indent int) {
+	tag.BaseTag.Render(writer, indent)
 	fmt.Fprintf(writer, "<!DOCTYPE %s>", tag.Doctype)
 }

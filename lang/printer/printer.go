@@ -14,5 +14,8 @@ type Writer interface {
 }
 
 func WriteIndent(writer Writer, indent int) {
+	if indent < 0 {
+		return
+	}
 	writer.WriteString(strings.Repeat(IndentString, indent))
 }

@@ -55,7 +55,7 @@ func Main(args []string) error {
 			return err
 		}
 
-		template.Root().Render(os.Stdout)
+		template.Root().Render(os.Stdout, -1)
 	}
 
 	return nil

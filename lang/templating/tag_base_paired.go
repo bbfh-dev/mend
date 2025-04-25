@@ -9,30 +9,23 @@ type BasePairedTag struct {
 	Children []Tag
 }
 
-func NewPairedBase(indent int) *BasePairedTag {
+func NewPairedBase() *BasePairedTag {
 	return &BasePairedTag{
-		BaseTag:  NewBase(indent),
+		BaseTag:  NewBase(),
 		Children: []Tag{},
 	}
 }
 
-func (tag *BasePairedTag) Render(writer printer.Writer) {
+func (tag *BasePairedTag) Render(writer printer.Writer, indent int) {
 	for _, child := range tag.Children {
 		// fmt.Fprintf(writer, "<!-- %s %+v -->\n", reflect.TypeOf(child), child)
 		switch child.Visibility() {
 		case VISIBLE:
-			child.Render(writer)
+			child.Render(writer, indent+1)
 			writer.WriteString("\n")
 		case INLINE:
-			child.Render(writer)
+			child.Render(writer, indent)
 		}
-	}
-}
-
-func (tag *BasePairedTag) Shift(offset int) {
-	tag.BaseTag.Shift(offset)
-	for _, child := range tag.Children {
-		child.Shift(offset)
 	}
 }
 

@@ -11,14 +11,14 @@ type CommentTag struct {
 	Comment string
 }
 
-func NewComment(indent int, comment string) *CommentTag {
+func NewComment(comment string) *CommentTag {
 	return &CommentTag{
-		BaseTag: NewBase(indent),
+		BaseTag: NewBase(),
 		Comment: comment,
 	}
 }
 
-func (tag *CommentTag) Render(writer printer.Writer) {
-	tag.BaseTag.Render(writer)
+func (tag *CommentTag) Render(writer printer.Writer, indent int) {
+	tag.BaseTag.Render(writer, indent)
 	fmt.Fprintf(writer, "<!-- %s -->", tag.Comment)
 }

@@ -53,7 +53,6 @@ func (template *Template) buildToken(tokenType html.TokenType) error {
 
 	case html.DoctypeToken:
 		template.Pivot().Append(templating.NewDoctype(
-			template.thisIndent,
 			template.thisText,
 		))
 
@@ -62,7 +61,6 @@ func (template *Template) buildToken(tokenType html.TokenType) error {
 			break
 		}
 		template.Pivot().Append(templating.NewComment(
-			template.thisIndent,
 			template.thisText,
 		))
 
@@ -75,7 +73,6 @@ func (template *Template) buildToken(tokenType html.TokenType) error {
 			return fmt.Errorf("(expression): %w", err)
 		}
 		template.Pivot().Append(templating.NewText(
-			template.thisIndent,
 			text,
 		))
 
@@ -87,7 +84,7 @@ func (template *Template) buildToken(tokenType html.TokenType) error {
 			switch name {
 
 			case "slot":
-				tag := templating.NewMendSlot(template.thisIndent)
+				tag := templating.NewMendSlot()
 				template.Pivot().Append(tag)
 				template.Slot = tag
 
@@ -124,7 +121,6 @@ func (template *Template) buildToken(tokenType html.TokenType) error {
 
 		default:
 			template.Pivot().Append(templating.NewSelfClosing(
-				template.thisIndent,
 				template.thisText,
 				template.thisAttrs,
 			))
@@ -138,7 +134,7 @@ func (template *Template) buildToken(tokenType html.TokenType) error {
 			switch name {
 
 			case "slot":
-				tag := templating.NewMendSlot(template.thisIndent)
+				tag := templating.NewMendSlot()
 				template.EnterPivot(tag)
 				template.Slot = tag
 
@@ -156,7 +152,6 @@ func (template *Template) buildToken(tokenType html.TokenType) error {
 				}
 
 				template.EnterPivot(templating.NewMendExtend(
-					template.thisIndent,
 					branch.Root(),
 					branch.Slot,
 				))
@@ -178,7 +173,6 @@ func (template *Template) buildToken(tokenType html.TokenType) error {
 			}
 
 			template.EnterPivot(templating.NewMendExtend(
-				template.thisIndent,
 				branch.Root(),
 				branch.Slot,
 			))
@@ -186,7 +180,6 @@ func (template *Template) buildToken(tokenType html.TokenType) error {
 		case template.thisText == "html":
 			template.EnterPivot(
 				templating.NewDefaultRoot(
-					template.thisIndent,
 					template.thisText,
 					template.thisAttrs,
 				),
@@ -195,7 +188,6 @@ func (template *Template) buildToken(tokenType html.TokenType) error {
 		default:
 			template.EnterPivot(
 				templating.NewDefault(
-					template.thisIndent,
 					template.thisText,
 					template.thisAttrs,
 				),
@@ -213,7 +205,6 @@ func (template *Template) buildToken(tokenType html.TokenType) error {
 				)
 			} else {
 				tag.Slot.SetChildren(tag.Children)
-				tag.Slot.Shift(template.thisIndent)
 			}
 		}
 		template.ExitPivot()

@@ -12,9 +12,9 @@ type SelfClosingTag struct {
 	BaseDefaultTag
 }
 
-func NewSelfClosing(indent int, name string, attrs *attrs.Attributes) *SelfClosingTag {
+func NewSelfClosing(name string, attrs *attrs.Attributes) *SelfClosingTag {
 	return &SelfClosingTag{
-		BaseTag: NewBase(indent),
+		BaseTag: NewBase(),
 		BaseDefaultTag: BaseDefaultTag{
 			Name:  name,
 			Attrs: attrs,
@@ -22,8 +22,8 @@ func NewSelfClosing(indent int, name string, attrs *attrs.Attributes) *SelfClosi
 	}
 }
 
-func (tag *SelfClosingTag) Render(writer printer.Writer) {
-	tag.BaseTag.Render(writer)
+func (tag *SelfClosingTag) Render(writer printer.Writer, indent int) {
+	tag.BaseTag.Render(writer, indent)
 
 	fmt.Fprintf(writer, "<%s", tag.Name)
 	tag.Attrs.Render(writer)

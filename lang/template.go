@@ -32,7 +32,7 @@ func New(indent int, ctx *context.Context, dir, name string) *Template {
 		Dir:           dir,
 		Name:          name,
 		Context:       ctx,
-		Breadcrumbs:   []templating.PairedTag{templating.NewMendSlot(indent)},
+		Breadcrumbs:   []templating.PairedTag{templating.NewMendSlot()},
 		Slot:          nil,
 		thisToken:     html.Token{},
 		thisText:      "",

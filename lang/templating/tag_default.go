@@ -12,9 +12,9 @@ type DefaultTag struct {
 	BaseDefaultTag
 }
 
-func NewDefault(indent int, name string, attrs *attrs.Attributes) *DefaultTag {
+func NewDefault(name string, attrs *attrs.Attributes) *DefaultTag {
 	return &DefaultTag{
-		BasePairedTag: NewPairedBase(indent),
+		BasePairedTag: NewPairedBase(),
 		BaseDefaultTag: BaseDefaultTag{
 			Name:  name,
 			Attrs: attrs,
@@ -22,15 +22,15 @@ func NewDefault(indent int, name string, attrs *attrs.Attributes) *DefaultTag {
 	}
 }
 
-func (tag *DefaultTag) Render(writer printer.Writer) {
-	tag.BaseTag.Render(writer)
+func (tag *DefaultTag) Render(writer printer.Writer, indent int) {
+	tag.BaseTag.Render(writer, indent)
 
 	fmt.Fprintf(writer, "<%s", tag.Name)
 	tag.Attrs.Render(writer)
 	writer.WriteString(">\n")
 
-	tag.BasePairedTag.Render(writer)
+	tag.BasePairedTag.Render(writer, indent)
 
-	tag.BaseTag.Render(writer)
+	tag.BaseTag.Render(writer, indent)
 	fmt.Fprintf(writer, "</%s>", tag.Name)
 }

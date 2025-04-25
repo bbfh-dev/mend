@@ -11,15 +11,15 @@ type TextTag struct {
 	Text string
 }
 
-func NewText(indent int, text string) *TextTag {
+func NewText(text string) *TextTag {
 	return &TextTag{
-		BaseTag: NewBase(indent),
+		BaseTag: NewBase(),
 		Text:    text,
 	}
 }
 
-func (tag *TextTag) Render(writer printer.Writer) {
-	tag.BaseTag.Render(writer)
+func (tag *TextTag) Render(writer printer.Writer, indent int) {
+	tag.BaseTag.Render(writer, indent)
 
 	lines := strings.Split(tag.Text, "\n")
 	lastLine := len(lines) - 1

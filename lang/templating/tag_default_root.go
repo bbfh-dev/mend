@@ -11,14 +11,14 @@ type DefaultRootTag struct {
 	*DefaultTag
 }
 
-func NewDefaultRoot(indent int, name string, attrs *attrs.Attributes) *DefaultRootTag {
+func NewDefaultRoot(name string, attrs *attrs.Attributes) *DefaultRootTag {
 	return &DefaultRootTag{
-		DefaultTag: NewDefault(indent, name, attrs),
+		DefaultTag: NewDefault(name, attrs),
 	}
 }
 
-func (tag *DefaultRootTag) Render(writer printer.Writer) {
-	tag.BaseTag.Render(writer)
+func (tag *DefaultRootTag) Render(writer printer.Writer, indent int) {
+	tag.BaseTag.Render(writer, indent)
 
 	fmt.Fprintf(writer, "<%s", tag.Name)
 	tag.Attrs.Render(writer)
@@ -27,12 +27,11 @@ func (tag *DefaultRootTag) Render(writer printer.Writer) {
 	writer.WriteString("\n")
 	for _, child := range tag.Children {
 		if child.Visibility() != INVISIBLE {
-			child.Shift(-1)
-			child.Render(writer)
+			child.Render(writer, indent)
 			writer.WriteString("\n\n")
 		}
 	}
 
-	tag.BaseTag.Render(writer)
+	tag.BaseTag.Render(writer, indent)
 	fmt.Fprintf(writer, "</%s>", tag.Name)
 }

@@ -4,9 +4,9 @@ type MendSlotTag struct {
 	*BasePairedTag
 }
 
-func NewMendSlot(indent int) *MendSlotTag {
+func NewMendSlot() *MendSlotTag {
 	return &MendSlotTag{
-		BasePairedTag: NewPairedBase(indent),
+		BasePairedTag: NewPairedBase(),
 	}
 }
 
