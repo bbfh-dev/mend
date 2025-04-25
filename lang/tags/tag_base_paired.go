@@ -1,4 +1,4 @@
-package templating
+package tags
 
 import (
 	"github.com/bbfh-dev/mend/lang/printer"

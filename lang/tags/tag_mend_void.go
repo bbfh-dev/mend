@@ -1,4 +1,4 @@
-package templating
+package tags
 
 type MendVoidTag struct {
 	*BasePairedTag

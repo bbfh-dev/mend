@@ -5,7 +5,7 @@ import (
 
 	"github.com/bbfh-dev/mend/lang/attrs"
 	"github.com/bbfh-dev/mend/lang/context"
-	"github.com/bbfh-dev/mend/lang/templating"
+	"github.com/bbfh-dev/mend/lang/tags"
 	"golang.org/x/net/html"
 )
 
@@ -17,8 +17,8 @@ type Template struct {
 	Name    string
 	Context *context.Context
 
-	Breadcrumbs []templating.PairedTag
-	Slot        *templating.MendSlotTag
+	Breadcrumbs []tags.PairedTag
+	Slot        *tags.MendSlotTag
 
 	thisToken     html.Token
 	thisText      string
@@ -32,7 +32,7 @@ func New(indent int, ctx *context.Context, dir, name string) *Template {
 		Dir:           dir,
 		Name:          name,
 		Context:       ctx,
-		Breadcrumbs:   []templating.PairedTag{templating.NewMendSlot()},
+		Breadcrumbs:   []tags.PairedTag{tags.NewMendSlot()},
 		Slot:          nil,
 		thisToken:     html.Token{},
 		thisText:      "",
@@ -46,15 +46,15 @@ func (template *Template) Cursor() string {
 	return fmt.Sprintf("%s:%d", template.Name, template.thisLineIndex+1)
 }
 
-func (template *Template) Root() templating.PairedTag {
+func (template *Template) Root() tags.PairedTag {
 	return template.Breadcrumbs[0]
 }
 
-func (template *Template) Pivot() templating.PairedTag {
+func (template *Template) Pivot() tags.PairedTag {
 	return template.Breadcrumbs[len(template.Breadcrumbs)-1]
 }
 
-func (template *Template) EnterPivot(tag templating.PairedTag) {
+func (template *Template) EnterPivot(tag tags.PairedTag) {
 	template.Pivot().Append(tag)
 	template.Breadcrumbs = append(template.Breadcrumbs, tag)
 	template.thisIndent++

@@ -1,4 +1,4 @@
-package templating
+package tags
 
 type MendSlotTag struct {
 	*BasePairedTag

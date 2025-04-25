@@ -10,7 +10,7 @@ import (
 	"github.com/bbfh-dev/mend/lang/attrs"
 	"github.com/bbfh-dev/mend/lang/expressions"
 	"github.com/bbfh-dev/mend/lang/printer"
-	"github.com/bbfh-dev/mend/lang/templating"
+	"github.com/bbfh-dev/mend/lang/tags"
 	"golang.org/x/net/html"
 )
 
@@ -52,7 +52,7 @@ func (template *Template) buildToken(tokenType html.TokenType) error {
 	switch tokenType {
 
 	case html.DoctypeToken:
-		template.Pivot().Append(templating.NewDoctype(
+		template.Pivot().Append(tags.NewDoctype(
 			template.thisText,
 		))
 
@@ -60,7 +60,7 @@ func (template *Template) buildToken(tokenType html.TokenType) error {
 		if printer.StripComments {
 			break
 		}
-		template.Pivot().Append(templating.NewComment(
+		template.Pivot().Append(tags.NewComment(
 			template.thisText,
 		))
 
@@ -72,7 +72,7 @@ func (template *Template) buildToken(tokenType html.TokenType) error {
 		if err != nil {
 			return fmt.Errorf("(expression): %w", err)
 		}
-		template.Pivot().Append(templating.NewText(
+		template.Pivot().Append(tags.NewText(
 			text,
 		))
 
@@ -84,7 +84,7 @@ func (template *Template) buildToken(tokenType html.TokenType) error {
 			switch name {
 
 			case "slot":
-				tag := templating.NewMendSlot()
+				tag := tags.NewMendSlot()
 				template.Pivot().Append(tag)
 				template.Slot = tag
 
@@ -120,7 +120,7 @@ func (template *Template) buildToken(tokenType html.TokenType) error {
 			template.Pivot().Append(branch.Root())
 
 		default:
-			template.Pivot().Append(templating.NewSelfClosing(
+			template.Pivot().Append(tags.NewSelfClosing(
 				template.thisText,
 				template.thisAttrs,
 			))
@@ -134,7 +134,7 @@ func (template *Template) buildToken(tokenType html.TokenType) error {
 			switch name {
 
 			case "slot":
-				tag := templating.NewMendSlot()
+				tag := tags.NewMendSlot()
 				template.EnterPivot(tag)
 				template.Slot = tag
 
@@ -144,12 +144,12 @@ func (template *Template) buildToken(tokenType html.TokenType) error {
 				switch {
 				case okTrue:
 					if checkTrue != "true" {
-						template.EnterPivot(templating.NewMendVoid())
+						template.EnterPivot(tags.NewMendVoid())
 						return nil
 					}
 				case okFalse:
 					if checkFalse != "false" {
-						template.EnterPivot(templating.NewMendVoid())
+						template.EnterPivot(tags.NewMendVoid())
 						return nil
 					}
 				default:
@@ -157,7 +157,7 @@ func (template *Template) buildToken(tokenType html.TokenType) error {
 						"<mend:if> requires a `:true=\"...\"` or `:false=\"...\"` attribute",
 					)
 				}
-				template.EnterPivot(templating.NewMendSlot())
+				template.EnterPivot(tags.NewMendSlot())
 
 			case "extend":
 				src, err := template.requireAttr(":src")
@@ -170,7 +170,7 @@ func (template *Template) buildToken(tokenType html.TokenType) error {
 					return err
 				}
 
-				template.EnterPivot(templating.NewMendExtend(
+				template.EnterPivot(tags.NewMendExtend(
 					branch.Root(),
 					branch.Slot,
 				))
@@ -191,14 +191,14 @@ func (template *Template) buildToken(tokenType html.TokenType) error {
 				return err
 			}
 
-			template.EnterPivot(templating.NewMendExtend(
+			template.EnterPivot(tags.NewMendExtend(
 				branch.Root(),
 				branch.Slot,
 			))
 
 		case template.thisText == "html":
 			template.EnterPivot(
-				templating.NewDefaultRoot(
+				tags.NewDefaultRoot(
 					template.thisText,
 					template.thisAttrs,
 				),
@@ -206,7 +206,7 @@ func (template *Template) buildToken(tokenType html.TokenType) error {
 
 		default:
 			template.EnterPivot(
-				templating.NewDefault(
+				tags.NewDefault(
 					template.thisText,
 					template.thisAttrs,
 				),
@@ -215,7 +215,7 @@ func (template *Template) buildToken(tokenType html.TokenType) error {
 
 	case html.EndTagToken:
 		switch tag := template.Pivot().(type) {
-		case *templating.MendExtendTag:
+		case *tags.MendExtendTag:
 			if tag.Slot == nil {
 				fmt.Fprintf(
 					os.Stderr,
