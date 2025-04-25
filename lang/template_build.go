@@ -5,6 +5,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 
 	"github.com/bbfh-dev/mend/lang/attrs"
@@ -205,6 +206,10 @@ func (template *Template) buildToken(tokenType html.TokenType) error {
 			)
 
 		default:
+			// Is it actually a self-closing tag with wrong syntax?
+			if slices.Contains(attrs.SelfClosingTags, template.thisText) {
+				return template.buildToken(html.SelfClosingTagToken)
+			}
 			template.EnterPivot(
 				tags.NewDefault(
 					template.thisText,
