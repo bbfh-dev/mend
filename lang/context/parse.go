@@ -3,22 +3,22 @@ package context
 import (
 	"strings"
 
-	"golang.org/x/net/html"
+	"github.com/bbfh-dev/mend/lang/attrs"
 )
 
 func IsContextKey(key string) bool {
 	return strings.HasPrefix(key, ":")
 }
 
-func ParseAttrs(attrs []html.Attribute) *Context {
+func ParseAttrs(attrs *attrs.Attributes) *Context {
 	ctx := New()
 
-	for _, attr := range attrs {
-		if !IsContextKey(attr.Key) {
+	for key, attr := range attrs.Values {
+		if !IsContextKey(key) {
 			continue
 		}
-		key := attr.Key[1:]
-		value := strings.TrimSpace(attr.Val)
+		key = key[1:]
+		value := strings.TrimSpace(attr)
 
 		if strings.HasPrefix(value, "{") && strings.HasSuffix(value, "}") {
 			ctx.Values[key] = parseDict(value)

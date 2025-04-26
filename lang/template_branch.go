@@ -19,7 +19,7 @@ func (template *Template) BranchOut(location string) (*Template, error) {
 
 	branch := New(
 		template.thisIndent,
-		context.ParseAttrs(template.thisToken.Attr),
+		context.ParseAttrs(template.thisAttrs),
 		filepath.Dir(location),
 		filepath.Base(location),
 	)
