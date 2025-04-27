@@ -17,6 +17,7 @@ var Options struct {
 	StripComments bool   `desc:"Strips away HTML comments from the output"`
 	Input         string `desc:"Provide input to the provided files in the following format: 'attr1=value1,attr2.a.b.c=value2,...'"`
 	Output        string `desc:"(Optional) output path. Use '.' to substitute the same filename (e.g. './out/.' -> './out/input.html')"`
+	WorkDir       string `desc:"Overwrite the directory used for resolving <pkg:...> tags"`
 }
 
 func Main(args []string) error {
@@ -27,6 +28,7 @@ func Main(args []string) error {
 		printer.IndentString = strings.Repeat(" ", Options.Indent)
 	}
 
+	lang.Cwd = Options.WorkDir
 	context.GlobalContext = context.New()
 	if len(Options.Input) != 0 {
 		for prop := range strings.SplitSeq(Options.Input, ",") {
@@ -45,7 +47,9 @@ func Main(args []string) error {
 		filename, _ := filepath.Abs(filename)
 
 		context.GlobalContext.Set([]string{"@file"}, filename)
-		lang.Cwd = dir
+		if Options.WorkDir == "" {
+			lang.Cwd = dir
+		}
 
 		file, err := os.OpenFile(filename, os.O_RDONLY, os.ModePerm)
 		if err != nil {
