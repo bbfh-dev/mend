@@ -40,7 +40,7 @@ func (template *Template) BranchOut(location string) (*Template, error) {
 func (template *Template) Find(name string) (string, bool) {
 	var result string
 
-	filepath.WalkDir(template.Dir, func(path string, entry fs.DirEntry, err error) error {
+	filepath.WalkDir(Cwd, func(path string, entry fs.DirEntry, err error) error {
 		if err != nil {
 			return err
 		}
@@ -63,7 +63,7 @@ func (template *Template) Find(name string) (string, bool) {
 func (template *Template) locateTemplate(tag string) (string, error) {
 	location, found := template.Find(tag + ".html")
 	if !found {
-		abs, _ := filepath.Abs(template.Dir)
+		abs, _ := filepath.Abs(Cwd)
 		return "", fmt.Errorf(
 			"Can't find template <%s%s> in %s/*",
 			PKG_PREFIX,

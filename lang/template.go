@@ -9,6 +9,8 @@ import (
 	"golang.org/x/net/html"
 )
 
+var Cwd = ""
+
 const MEND_PREFIX = "mend:"
 const PKG_PREFIX = "pkg:"
 

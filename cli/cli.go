@@ -43,7 +43,9 @@ func Main(args []string) error {
 		dir := filepath.Dir(filename)
 		base := filepath.Base(filename)
 		filename, _ := filepath.Abs(filename)
+
 		context.GlobalContext.Set([]string{"@file"}, filename)
+		lang.Cwd = dir
 
 		file, err := os.OpenFile(filename, os.O_RDONLY, os.ModePerm)
 		if err != nil {
