@@ -2,6 +2,7 @@ package attrs
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/bbfh-dev/mend/lang/printer"
 	"golang.org/x/net/html"
@@ -45,7 +46,11 @@ func (attrs *Attributes) OverrideAttr(key string, value string) {
 		return
 	}
 
-	attrs.Values[key] = fmt.Sprintf(value, original)
+	if strings.Contains(value, "%s") {
+		attrs.Values[key] = fmt.Sprintf(value, original)
+	} else {
+		attrs.Values[key] = value
+	}
 }
 
 func (attrs *Attributes) renderKey(out printer.Writer, key string) {
