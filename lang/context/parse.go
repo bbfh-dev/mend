@@ -25,7 +25,7 @@ func ParseAttrs(attrs *attrs.Attributes) *Context {
 			continue
 		}
 
-		ctx.Set([]string{key}, value)
+		ctx.Set([]string{key}, strings.TrimPrefix(value, "&"))
 	}
 
 	return ctx

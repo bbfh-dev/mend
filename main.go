@@ -13,7 +13,7 @@ var Runtime = parsex.Program{
 	Name: "mend",
 	Desc: "HTML template processor designed to, but not limited to be used to generate static websites",
 	Exec: cli.Main,
-}.Runtime().SetVersion("1.0.1-alpha.3").SetPosArgs("html files...")
+}.Runtime().SetVersion("1.0.1-alpha.4").SetPosArgs("html files...")
 
 func main() {
 	err := Runtime.Run(os.Args[1:])
